@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>项目列表</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="css/mui.min.css">
+		<!--App自定义的css-->
+		<!--<link rel="stylesheet" type="text/css" href="css/app.css" />-->
+		<style>
+			ul {
+				padding: 0;
+			}
+			ul li {
+				list-style: none;
+			}
+			.mui_row_ul li {
+				text-align: center;
+			}
+			.mui-table-view-cell:after {
+				right: 15px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background: #4BAFFA;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color:#fff;"></a>
+			<h1 id="data_title" class="mui-title" style="color:#fff"></h1>
+		</header>
+		<div id="pullrefresh" class="mui-content">
+			<div style="width: 100%; height: 45px; background: #eee;margin-top: 5px;">
+				<input type="text"  placeholder="请输入项目名称" style="width: 80%; height: 40px;margin-bottom:0;float: left;"/>
+				<div class="mui-btn mui-btn-primary" style="width: 20%; height: 40px;float: left;line-height: 40px; padding: 0;">
+					查询
+				</div>
+			</div>
+			<ul id="OA_task_1" class="mui-table-view" style="margin: 0;">
+				<!--<li class="mui-table-view-cell">
+					<div class="mui-slider-handle">
+						<ul class="mui-row mui_row_ul">
+							<li class="mui-col-xs-2">序号</li>
+							<li class="mui-col-xs-8">名称</li>
+							<li class="mui-col-xs-2">操作</li>
+						</ul>
+					</div>
+				</li>-->
+				<li id="list_all_data" class="mui-table-view-cell list_all_data" style="display: none;">
+					<div class="mui-slider-right mui-disabled roleControl">
+						<a class="mui-btn mui-btn-red">删除</a>
+					</div>
+					<div class="mui-slider-handle">
+						<a id="list_all_a" class="mui_row_ul list_all_a mui-pull-left mui-col-xs-10" href="#" style="display:block;height:45px; color:#333;">
+							<span class="mui-col-xs-2 list1 mui-pull-left mui-text-center" style="display:block;line-height:45px;">1</span>
+							<span class="mui-col-xs-10 list2 mui-pull-left" style="display:block;line-height:45px;" name="name">2</span>
+						</a>
+							<span class="location mui-icon mui-icon-location mui-pull-left mui-col-xs-2 mui-text-center" style="display:block;color:#0090ff;line-height: 45px;"></span>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<script src="js/url.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/jquery.min.js"></script>
+		<script src="js/mui.pullToRefresh.js"></script>
+		<script src="js/mui.pullToRefresh.material.js"></script>
+		<script>
+//      获取页面url的type和content
+			function getUrlParam(key){
+			    // 获取参数
+			    var url = window.location.search;
+			    // 正则筛选地址栏
+			    var reg = new RegExp("(^|&)"+ key +"=([^&]*)(&|$)");
+			    // 匹配目标参数
+			    var result = url.substr(1).match(reg);
+			    //返回参数值
+			    return result ? decodeURIComponent(result[2]) : null;
+			}
+			var type=getUrlParam("type");
+			var content = getUrlParam("content");
+			var titleName = getUrlParam("titleName");
+			if(content=="全部项目"){
+				type=0;
+				content="null";
+			}else if(content=="全部"){
+				type=0;
+				content="null";
+			}
+//			页面加载数据
+			mui.ready(function(){
+				loading();
+
+			})
+			function  getRoleIdByUserName(token){
+				mui.ajax(commonUrl+'/android/role/listByUsername;jsessionid='+token,{
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					async:false, 
+				     success: function(data) {
+						if(data.code=='1'){
+							sessionStorage.setItem("roleId",data.data[0].id);
+						}
+					}
+				});
+			}
+				
+//  页面加载
+		function loading(){
+			var token = sessionStorage.getItem('token');
+			getRoleIdByUserName(token);
+			mui.ajax(commonUrl+'/android/project/listByTypeAndContent;jsessionid='+token,{
+					data:{
+						type:type,
+						content:content
+					},
+//					dataType:'json',//服务器返回json格式数据
+					type:'post',//HTTP请求类型
+					timeout:10000,//超时时间设置为10秒；
+//					headers:{'Content-Type':'application/json'},	              
+					success:function(data){
+						if(data.code==1){
+							$("#data_title").html(titleName);
+							for(var i=0;i<data.data.length;i++){
+								var list_all_data = $(".list_all_data").first().clone();
+								$("#OA_task_1").append(list_all_data);
+								list_all_data.show();
+								list_all_data.find(".list1").html(i+1);
+								list_all_data.find(".list2").html(data.data[i].name);
+								list_all_data.find(".list_all_a").attr("id",data.data[i].id);
+								list_all_data.find(".mui-icon-location").attr("id",data.data[i].id);
+							}
+							
+							if(sessionStorage.getItem('roleId')==1||sessionStorage.getItem('roleId')==11){
+								//显示删除按钮
+							}else{
+								
+								$(".roleControl").remove();
+							}
+						}else{
+							mui.alert("加载数据失败");
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						//异常处理；
+						console.log(type);
+					}
+				});
+		}
+//		滑动删除
+			(function($) {
+				//第一个demo，拖拽后显示操作图标，点击操作图标删除元素；
+				$('#OA_task_1').on('tap', '.mui-btn', function(event) {
+					var elem = this;
+					var li = elem.parentNode.parentNode;
+					mui.confirm('确认删除该条记录？', 'Hello MUI', btnArray, function(e) {
+						if (e.index == 0) {
+							li.parentNode.removeChild(li);
+						} else {
+							setTimeout(function() {
+								$.swipeoutClose(li);
+							}, 0);
+						}
+					});
+				});
+				var btnArray = ['确认', '取消'];
+			})(mui);
+			
+//		点击进入详情列表页面
+		mui("#OA_task_1").on('tap', '.list_all_a', function() {
+				//获取id
+			var id = this.getAttribute("id");
+				mui.openWindow({
+				    url: 'list_all_data.html?id='+id, 
+				    id:'list_all_data_detail'
+				  });
+			})
+		mui("#OA_task_1").on('tap', '.mui-icon-location', function() {
+				//获取id
+			var id = this.getAttribute("id");
+				mui.openWindow({
+				    url: 'map.html?id='+id, 
+				    id:'map'
+				  });
+			})
+		</script>
+	
+	</body>
+
+</html>
