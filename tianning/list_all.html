@@ -19,11 +19,11 @@
 			ul li {
 				list-style: none;
 			}
-			.mui_row_ul li {
-				text-align: center;
-			}
 			.mui-table-view-cell:after {
 				right: 15px;
+			}
+			.essentials span {
+				color:#12B7F5;
 			}
 		</style>
 	</head>
@@ -39,6 +39,9 @@
 				<div class="mui-btn mui-btn-primary" style="width: 20%; height: 40px;float: left;line-height: 40px; padding: 0;">
 					查询
 				</div>
+			</div>
+			<div class="essentials" style="margin:5px 10px 10px 10px;">
+				<span id="projectName"></span>共<span id="projectNumber">26</span>个项目，<span id="">2018</span>年计划投资<span id="">36.7</span>亿元,其中<span id="">3</span>个续建项目，<span id="">2018</span>年计划投资<span id="">6.4</span>亿元；<span id=""23</span>个新建项目，<span id="">2018</span>年计划投资<span id="">30.3</span>亿元。
 			</div>
 			<ul id="OA_task_1" class="mui-table-view" style="margin: 0;">
 				<!--<li class="mui-table-view-cell">
@@ -123,8 +126,11 @@
 					timeout:10000,//超时时间设置为10秒；
 //					headers:{'Content-Type':'application/json'},	              
 					success:function(data){
+						console.log(data);
 						if(data.code==1){
 							$("#data_title").html(titleName);
+							$("#projectName").html(titleName);
+							$("#projectNumber").html(data.data.length);
 							for(var i=0;i<data.data.length;i++){
 								var list_all_data = $(".list_all_data").first().clone();
 								$("#OA_task_1").append(list_all_data);

@@ -51,6 +51,14 @@
 		.mui-table-view-cell {
 			padding:13px 15px;
 		}
+		.mui-icon {
+			line-height: 2;
+		}
+		#mainBtnSearch {
+			line-height: 45px;
+			color:#fff;
+			font-size: 16px;
+		}
 	</style>
 	</head>
 
@@ -58,10 +66,13 @@
 		<!--头部-->
 		<header class="mui-bar mui-bar-nav" style="background: #4BAFFA;">
     		<h1 class="mui-title" style="color: #fff;">全部项目</h1>
-			
+			<span id="mainBtnSearch" class="mui-pull-right">查询</span>
 		</header>
 		<div class="mui-content">
 			<div id="list" class="mui-card" style="margin: 0;">
+				<div id="mainSearch" class="mui-input-row mui-search" style="display: none;">
+				    <input id="search" type="search" class="mui-input-clear mui-pull-left" placeholder="请输入项目名称" style="margin: 5px 0;">
+				</div>
 				<ul class="mui-table-view ul_all">
 					<li class="mui-table-view-cell mui-collapse mui-active">
 						<a class="mui-navigate-right list_part" href="#" key=1>责任单位</a>
@@ -226,7 +237,20 @@
 				    url: 'list_all.html?type='+type+'&content='+content+'&titleName='+titlename, 
 				    id:'list_all_data'
 				  });
-			})	
+			})
+		
+//  模糊查询
+	document.getElementById("mainBtnSearch").addEventListener('tap',function(){
+		$("#mainSearch").toggle();
+	})
+//  手机键盘搜索
+	document.getElementById("search").addEventListener("keypress",function(event) {
+    if(event.keyCode == "13") {
+        document.activeElement.blur();//收起虚拟键盘
+        toSearch();//TODO 完成搜索事件
+        event.preventDefault(); // 阻止默认事件---阻止页面刷新
+    	}
+	});
 		</script>
 	</body>
 

@@ -161,22 +161,21 @@
 							sessionStorage.setItem('username',data.data.username);
 							//getRoleIdByUserName(data.token);
 							
-			//     http://localhost:8080/android/time/get?time=
-//							mui.ajax(commonUrl+'/android/time/get',{
-////							data:{
-////								time:''
-////							},
-//							type:'post',//HTTP请求类型
-//							timeout:10000,//超时时间设置为10秒；
-//							success:function(data){
-//								//服务器返回响应，根据响应结果，分析是否登录成功；
-//								console.log(data);
+							mui.ajax(commonUrl+'/android/time/get;jsessionid='+data.token+'?time=',{
+//							data:{
+//								time:''
 //							},
-//							error:function(xhr,type,errorThrown){
-//								//异常处理；
-//								console.log(type);
-//							}
-//						});
+							type:'post',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							success:function(data){
+								//服务器返回响应，根据响应结果，分析是否登录成功；
+								console.log("请求成功");
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+							}
+						});
 							
 							
 							var webview = mui.openWindow({

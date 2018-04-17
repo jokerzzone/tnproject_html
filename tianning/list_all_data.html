@@ -38,18 +38,12 @@
 		.mui-input-row {
 			clear: none;
 		}
-		.mui-input-row label {
-			height: 50px;
-			line-height: 2.1;
-			padding-right: 0!important;
-			border-right: 1px solid #eee;
-		}
+		
 		.mui-input-row input {
 			height: 50px;
 		}
 		.mui-input-row input[type="text"],
 		.mui-input-row textarea {
-			border-bottom: 1px solid #ccc!important;
 			border-radius: 0;
 			font-size: 12px;
 			padding-left: 5px!important;
@@ -79,6 +73,17 @@
 		
 		.label {
 			width: 85px!important;
+			height: 50px;
+			line-height: 2.1!important;
+			padding-right: 0!important;
+			border-right: 1px solid #EEE;
+		}
+		.label_checkbox {
+			width: 80%;
+			line-height: 2.1!important;
+		}
+		.investment {
+			border-bottom:1px solid #ccc!important;
 		}
 	</style>
 	</head>
@@ -197,19 +202,19 @@
 					                <div class="mui-media-body">
 					                	<div class="mui-input-row mui-col-xs-12">
 											<label class="label">总投资</label>
-											<input class="essential_totalInvestment" type="text" value="">
+											<input class="investment essential_totalInvestment" type="text" value="">
 										</div>
 										<div class="mui-input-row mui-col-xs-12">
 											<label class="label">国资比例</label>
-											<input class="essential_yearFinancing" type="text" value="">
+											<input class="investment essential_yearFinancing" type="text" value="">
 										</div>
 										<div class="mui-input-row mui-col-xs-12">
 											<label class="label">已投资</label>
-											<input class="essential_finishInvestment" type="text" value="">
+											<input class="investment essential_finishInvestment" type="text" value="">
 										</div>
 										<div class="mui-input-row mui-col-xs-12">
 											<label class="label">年度计划</label>
-											<input class="essential_planInvestment" type="text" value="">
+											<input class="investment essential_planInvestment" type="text" value="">
 										</div>
 										<div class="mui-input-row mui-col-xs-12">
 											<button type="button" class="btn mui-btn mui-btn-primary mui-btn-block">保存</button>
@@ -254,7 +259,7 @@
 					                <div class="mui-media-body">
 					                	<div class="mui-input-row mui-col-xs-12">
 											<label class="label">开工情况</label>
-											<label><input class="invest_startStatus" type="checkbox">开工</label>
+											<label class="label_checkbox"><input class="invest_startStatus" type="checkbox">开工</label>
 										</div>
 										<div class="mui-input-row mui-col-xs-12">
 											<label class="label">开工时间</label>
@@ -270,31 +275,31 @@
 										</div>
 										<div class="mui-input-row mui-col-xs-12">
 											<label class="label">03月投资（预计）</label>
-											<input class="invest_monthInvestment" type="text" value="">
+											<input class="investment invest_monthInvestment" type="text" value="">
 										</div>
 										<div class="mui-input-row mui-col-xs-12">
 											<label class="label">至3月累计投资（预计）</label>
-											<input class="essential_monthInvest" type="text" value="0万元">
+											<input class="investment essential_monthInvest" type="text" value="0万元">
 										</div>
 										<div class="mui-input-row mui-col-xs-12">
 											<label class="label">时序进度</label>
-											<input class="invest_rate" type="text" value="0.0%">
+											<input class="investment invest_rate" type="text" value="0.0%">
 										</div>
 										<div class="mui-input-row mui-col-xs-12">
 											<label class="label">形象进度</label>
-											<textarea class="invest_monthFigureProgress" name="" rows="" cols="" ></textarea>
+											<textarea class="investment invest_monthFigureProgress" name="" rows="" cols="" ></textarea>
 										</div>
 										<div class="mui-input-row mui-col-xs-12">
 											<label class="label">对策措施</label>
-											<textarea class="invest_measures" name="" rows="" cols="" ></textarea>
+											<textarea class="investment invest_measures" name="" rows="" cols="" ></textarea>
 										</div>
 										<div class="mui-input-row mui-col-xs-12">
 											<label class="label">备注情况</label>
-											<textarea class="invest_remarks" name="" rows="" cols="" ></textarea>
+											<textarea class="investment invest_remarks" name="" rows="" cols="" ></textarea>
 										</div>
 										<div class="mui-input-row mui-col-xs-12">
 											<label class="label">更新时间</label>
-											<input class="invest_updateTime" type="text" value="">
+											<input class="investment invest_updateTime" type="text" value="">
 										</div>
 										<div class="mui-input-row mui-col-xs-12">
 											<button type="button" class="btn mui-btn mui-btn-primary mui-btn-block">保存</button>

@@ -110,7 +110,7 @@
 				padding: 0;
 				height: 35px;
 				width: 80px;
-				min-width: 40px;
+				padding: 0 25px;
 				border: 1px solid #ccc!important;
 			}
 			
@@ -119,7 +119,13 @@
 				color: #fff;
 				width: 80px;
 				height: 35px;
-				left: 45px;
+				left: 25px;
+			}
+			.mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-body {
+				text-align: center;
+			}
+			select {
+				display: inline-block!important;
 			}
 		</style>
 	</head>
@@ -137,28 +143,28 @@
 				<ul class="mui-table-view mui-grid-view">
 					<li class="mui-table-view-cell mui-media mui-col-xs-6">
 						<div class="mui-media-body">
-							<span class="mui-pull-left">性质：</span>
-							<select id="projectPropertyId" class="mui-btn mui-btn-block mui-pull-left">
+							<span class="">性质：</span>
+							<select id="projectPropertyId" class="mui-btn mui-btn-block">
 							</select>
 						</div>
 					</li>
 					<li class="mui-table-view-cell mui-media mui-col-xs-6">
 						<div class="mui-media-body">
-							<span class="mui-pull-left mui-pull-left">阶段：</span>
+							<span class="">阶段：</span>
 							<select id="conductCategoryId" class="mui-btn mui-btn-block">
 							</select>
 						</div>
 					</li>
 					<li class="mui-table-view-cell mui-media mui-col-xs-6">
 						<div class="mui-media-body">
-							<span  class="mui-pull-left">层次：</span>
-							<select id="arrangementId"  class="mui-btn mui-btn-block mui-pull-left">
+							<span  class="">层次：</span>
+							<select id="arrangementId"  class="mui-btn mui-btn-block">
 							</select>
 						</div>
 					</li>
 					<li class="mui-table-view-cell mui-media mui-col-xs-6">
 						<div class="mui-media-body">
-							<button id="btn_search" type="button" class="mui-btn mui-pull-left">查询</button>
+							<button id="btn_search" type="button" class="mui-btn">查询</button>
 						</div>
 
 					</li>
@@ -215,11 +221,9 @@
 				mui.ajax(commonUrl+'/android/count/list;jsessionid='+token, {
 					dataType: 'json', //服务器返回json格式数据
 					async: false,
-					data:{
-						
-					},
 					type: 'post', //HTTP请求类型
 					success: function(data) {
+//						console.log(data);
 						if(data.code == 1) {
 							//chart1
 							var chart1 = data.data.chart1;
@@ -475,15 +479,16 @@
 				downloadList();
 			})
 			
-			//通用的加载下拉框的用法
+//	通用的加载下拉框的用法
 			function initSelect(id, urlStr) {
-				var option = '<option value="">全部</option>';
+				var option = '<option value=" ">全部</option>';
 				//alert("编号："+id+"地址："+urlStr)
 				mui.ajax(commonUrl+urlStr, {
 					dataType: 'json', //服务器返回json格式数据
 					async: false,
 					type: 'post', //HTTP请求类型
 					success: function(data) {
+//						console.log(data);
 						for(var i = 0; i < data.data.length; i++) {
 							option += '<option value="' + data.data[i].id + '">' + data.data[i].name + '</option>';
 						}
@@ -562,29 +567,51 @@
 
 //	报表查询
 		document.getElementById("btn_search").addEventListener('tap',function(){
-			var projectPropertyId=$("#projectPropertyId option:selected");
-			alert(projectPropertyId.text());
-			var conductCategoryId=$("#conductCategoryId option:selected");
-			alert(conductCategoryId.text());
-			var arrangementId=$("#arrangementId option:selected");
-			alert(arrangementId.text());
-//			mui.ajax('http://server-name/login.php',{
-//			data:{
-//				condition.projectPropertyId:projectPropertyId.text(),
-//				condition.conductCategoryId:conductCategoryId.text(),
-//				condition.arrangementId:arrangementId.text()
-//			},
-//			type:'post',//HTTP请求类型
-//			timeout:10000,//超时时间设置为10秒；
-//			success:function(data){
-//				//服务器返回响应，根据响应结果，分析是否成功；
-//				
-//			},
-//			error:function(xhr,type,errorThrown){
-//				//异常处理；
-//				console.log(type);
-//			}
-//		});
+			var projectPropertyId=$("#projectPropertyId option:selected").val();
+			alert(projectPropertyId);
+			var conductCategoryId=$("#conductCategoryId option:selected").val();
+			var arrangementId=$("#arrangementId option:selected").val();
+			
+			var token = sessionStorage.getItem('token');
+			mui.ajax('http://192.168.1.114:8080/android/count/list;jsessionid='+token, {
+				data:{
+				"condition.projectPropertyId":projectPropertyId,
+				"condition.conductCategoryId":conductCategoryId,
+				"condition.arrangementId":arrangementId,
+				},
+//				async: false,
+				type: 'post', //HTTP请求类型
+				success: function(data) {
+					console.log(data);
+					if(data.code == 1) {
+						//chart1
+						var chart1 = data.data.chart1;
+						for(var i = 0; i < chart1.length; i++) {
+							chartOne_x.push(chart1[i].name);
+							chartOne_s.push(chart1[i].count);
+						}
+						//chart2
+						var chart2 = data.data.chart2;
+						for(var i = 0; i < chart2.length; i++) {
+							chartTwo_x.push(chart2[i].name);
+							chartTwo_s1.push(chart2[i].planInvest);
+							chartTwo_s2.push(chart2[i].totalInvest);
+							chartTwo_s3.push(chart2[i].finishInvest);
+						}
+						//chart3
+						var chart3 = data.data.chart3;
+						chartThree_v1 = chart3.finished;
+						chartThree_v2 = chart3.started;
+						chartThree_v3 = chart3.unStarted;
+						
+					}
+				},
+				error: function() {
+					//异常处理；
+					console.log(1);
+					
+				}
+			});
 		})
 		</script>
 	</body>
