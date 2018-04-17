@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>地图 示例</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" href="http://58.216.140.181:8080/arcgis_js_v38_api/arcgis_js_api/library/3.8/3.8compact/js/esri/css/esri.css">
+		<!--App自定义的css-->
+		<!-- <link rel="stylesheet" type="text/css" href="../css/app.css" /> -->
+		<style>
+			.chart {
+				height: 200px;
+				margin: 0px;
+				padding: 0px;
+			}
+			
+			h5 {
+				margin-top: 30px;
+				font-weight: bold;
+			}
+			
+			h5:first-child {
+				margin-top: 15px;
+			}
+			
+			.tool {
+				background: #E4ECE9;
+				width: 45px;
+				text-align: center;
+				padding-top: 5px;
+				border-radius: 5px;
+				margin-top: 3px;
+				opacity: 0.8;
+			}
+		</style>
+		<script src="js/mui.min.js"></script>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background: #4BAFFA;">
+			<h1 class="mui-title" style="color:#FFFFFF;">地图展示</h1>
+		</header>
+		<div class="mui-content" style="margin-top:-10px;">
+			<div class="mui-content-padded">
+				<div style="float:right;position: absolute;z-index: 99999;">
+					<div class="tool" id="ceijuTool">
+						<img id="ceiju" class="mui-media-object" src="images/ceiju.png" />
+					</div>
+					<div class="tool" id="ceimianTool">
+						<img id="ceimian" class="mui-media-object" src="images/ceimian.png" />
+					</div>
+					<div class="tool" id="qingchuTool">
+						<img id="qingchu" class="mui-media-object" src="images/qingchu.png" />
+					</div>
+				</div>
+				<div style="float:right;position: absolute;z-index: 99999;right:10px;">
+					<div>
+						<img id="ditu" style="border: 1px solid red;" class="mui-media-object" src="images/distmap.png">
+					</div>
+					<div>
+						<img id="yingxiang" class="mui-media-object" src="images/shadow.jpg">
+					</div>
+				</div>
+				<div id="map" style="position: absolute;right:0;left:0;z-index: 100 !important;width:100%;height:100%;">
+					
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="js/tool.js" ></script>
+		<script type="text/javascript" src="http://58.216.140.181:8080/arcgis_js_v38_api/arcgis_js_api/library/3.8/3.8compact/js/dojo/dojo/dojo.js"></script>
+		<script type="text/javascript" src="http://58.216.140.181:8080/arcgis_js_v38_api/arcgis_js_api/library/3.8/3.8compact/js/esri/jsapi.js"></script>
+		<script src="js/mapconfig.js"></script>
+		<script type="text/javascript" src="js/url.js" ></script>
+		<script src="js/map/map.js"></script>
+		<script>
+
+//			
+			//定位
+			function attachViewPoiToEarth(x,y) {
+				//设置标注的经纬度
+				var graphicm =  new esri.geometry.Point([x,y]);
+		        var symbolm = new esri.symbol.PictureMarkerSymbol('images/go.png',24,36);
+		     	var graphic = new esri.Graphic(graphicm,symbolm);	
+		        mygraphicsLayer.add(graphic);
+			    var point = new esri.geometry.Point([x, y]);
+			    MyMap.centerAndZoom(point,12);
+			}
+			
+			//测距
+			document.getElementById('ceiju').addEventListener('tap', function() {
+				document.getElementById('ceijuTool').style.border = "1px solid #FF7352";
+				document.getElementById('ceimianTool').style.border = "0";
+				document.getElementById('qingchuTool').style.border = "0";
+				measureline();
+			});
+
+			//测面
+			document.getElementById('ceimian').addEventListener('tap', function() {
+				document.getElementById('ceimianTool').style.border = "1px solid #FF7352";
+				document.getElementById('ceijuTool').style.border = "0";
+				document.getElementById('qingchuTool').style.border = "0";
+				measureploygon();
+			});
+
+			//清除
+			document.getElementById('qingchu').addEventListener('tap', function() {
+				document.getElementById('qingchuTool').style.border = "1px solid #FF7352";
+				document.getElementById('ceijuTool').style.border = "0";
+				document.getElementById('ceimianTool').style.border = "0";
+				clear();
+			});
+
+			//影像
+			document.getElementById('yingxiang').addEventListener('tap', function() {
+				showYingXiang();
+			});
+
+			//地图
+			document.getElementById('ditu').addEventListener('tap', function() {
+				showDitu();
+			});
+
+			//展示地图
+			function showDitu() {
+				yingXiangLayer.hide();
+				baseLayer.show();
+				document.getElementById('ditu').style.border = "1px solid red";
+				document.getElementById('yingxiang').style.border = "0";
+			}
+
+			//展示影像
+			function showYingXiang() {
+				baseLayer.hide();
+				yingXiangLayer.show();
+				document.getElementById('yingxiang').style.border = "1px solid red";
+				document.getElementById('ditu').style.border = "0";
+			}
+
+			//测距
+			function measureline() {
+				MyMap.graphics.clear();
+				myhandler = dojo.connect(mytoolbar, "onDrawEnd", doMeasure);
+				mytoolbar.activate(esri.toolbars.Draw.POLYLINE);
+			}
+
+			//测面
+			function measureploygon() {
+				MyMap.graphics.clear();
+				myhandler = dojo.connect(mytoolbar, "onDrawEnd", doMeasure);
+				mytoolbar.activate(esri.toolbars.Draw.POLYGON);
+			}
+
+			//清除
+			function clear() {
+				navToolbar.activate(esri.toolbars.Navigation.PAN);
+				MyMap.graphics.clear();
+				mygraphicsLayer.clear();
+				MyMap.infoWindow.hide();
+			}
+
+			function doMeasure(geometry) {
+				mytoolbar.deactivate();
+				dojo.disconnect(myhandler);
+				//更加类型设置显示样式  
+				measuregeometry = geometry;
+				mytoolbar.deactivate();
+				switch(geometry.type) {
+					case "polyline":
+						var symbol = new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color([128,230,128]), 3);
+						break;
+					case "polygon":
+						var symbol = new esri.symbol.SimpleFillSymbol(esri.symbol.SimpleFillSymbol.STYLE_SOLID, new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color([252,143,115]), 3), new dojo.Color([252,143,115,0.25]));
+						break;
+				}
+				//设置样式  
+				var graphic = new esri.Graphic(geometry, symbol);
+				//清除上一次的画图内容  
+				MyMap.graphics.clear();
+				MyMap.graphics.add(graphic);
+				//进行投影转换，完成后调用projectComplete  
+				MeasureGeometry(geometry);
+			}
+
+			//投影转换完成后调用方法  
+			function MeasureGeometry(geometry) {
+				//如果为线类型就进行lengths距离测算  
+				if(geometry.type == "polyline") {
+					var lengthParams = new esri.tasks.LengthsParameters();
+					lengthParams.polylines = [geometry];
+					lengthParams.lengthUnit = esri.tasks.GeometryService.UNIT_METER;
+					lengthParams.geodesic = true;
+					lengthParams.polylines[0].spatialReference = MyMap.spatialReference;
+					geometryService.lengths(lengthParams);
+				}
+
+				//如果为面类型需要先进行simplify操作在进行面积测算  
+				if(geometry.type == "polygon") {
+					var areasAndLengthParams = new esri.tasks.AreasAndLengthsParameters();
+					areasAndLengthParams.lengthUnit = esri.tasks.GeometryService.UNIT_METER;
+					areasAndLengthParams.areaUnit = esri.tasks.GeometryService.UNIT_SQUARE_METERS;
+					this.outSR = MyMap.spatialReference;
+					geometryService.project([geometry], this.outSR, function(geometry) {
+						geometryService.simplify(geometry, function(simplifiedGeometries) {
+							areasAndLengthParams.polygons = simplifiedGeometries;
+							areasAndLengthParams.polygons[0].spatialReference = MyMap.spatialReference;
+							geometryService.areasAndLengths(areasAndLengthParams);
+						});
+					});
+				}
+			}
+
+			//显示测量距离  
+			function outputDistance(result) {
+				var CurX = measuregeometry.paths[0][measuregeometry.paths[0].length - 1][0];
+				var CurY = measuregeometry.paths[0][measuregeometry.paths[0].length - 1][1];
+				var CurPos = new esri.geometry.Point(CurX, CurY, MyMap.spatialReference);
+				MyMap.infoWindow.resize(200, 75);
+				MyMap.infoWindow.setTitle("距离测量");
+				MyMap.infoWindow.setContent(" 测 量 长 度 ： <strong>" + (parseInt(String(result.lengths[0])) / 1000).toFixed(2) + "KM</strong>");
+				MyMap.infoWindow.show(CurPos);
+			}
+
+			//显示测量面积  
+			function outputAreaAndLength(result) {
+				var CurX = (measuregeometry._extent.xmax + measuregeometry._extent.xmin) / 2;
+				var CurY = (measuregeometry._extent.ymax + measuregeometry._extent.ymin) / 2;
+				var CurPos = new esri.geometry.Point(CurX, CurY, MyMap.spatialReference);
+				MyMap.infoWindow.resize(200, 75);
+				MyMap.infoWindow.setTitle("面积测量");
+				MyMap.infoWindow.setContent(" 面积 ： <strong>" + (parseInt(String(result.areas[0])) / 1000000).toFixed(2) + "k㎡</strong> ");
+				MyMap.infoWindow.show(CurPos);
+			}
+
+			//=====================================================================================================
+
+			//加载所有的天宁地图数据
+			function initAllMapData() {
+				var projectId = '' ;
+				if(getQueryString('id')!=null||getQueryString('id')!=''||typeof(getQueryString('id'))!="undefined"){
+					projectId = getQueryString('id');
+					var url = mapUrl+"/xbproject/projectreport/detailwithmap?id="+projectId+"&year=2018";
+					ajaxRequst_get(url,showAllMapDataAtMap);
+				}
+				
+			}
+
+			//加载所有的地图数据
+			function showAllMapDataAtMap(arg) {
+				arg = eval('(' + arg + ')');
+				//首先需要调用清除
+				clear();
+				console.log(arg)
+				//判断是否有地图数据
+				if(arg.code=="404"){
+					mui.alert("该项目无地图数据");
+					return false;
+				}
+				
+				
+				var rlen = arg.data.data.length;
+				for(var i = 0; i < rlen; i++) {
+					var glen = arg.data.data[i].geometry.ordinates.length;
+					var coordary = [];
+					for(var j = 0; j < glen; j++) {
+						var nowary = [arg.data.data[i].geometry.ordinates[j], arg.data.data[i].geometry.ordinates[j + 1]];
+						coordary.push(nowary);
+						j++;
+					}
+
+					var graphicm = new esri.geometry.Polygon(MyMap.spatialReference);
+					var graphicm_text = new esri.geometry.Polygon(MyMap.spatialReference);
+					graphicm.addRing(coordary);
+
+					var symbolm;
+					var textSym;
+					if(arg.data.data[i].arrangement.name == "省重点") {
+						//alert(0) 红色
+						symbolm = new esri.symbol.SimpleFillSymbol(esri.symbol.SimpleFillSymbol.STYLE_SOLID, new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color([178, 34, 34]), 1), new dojo.Color([178, 34, 34, 0.15]));
+						//textSym = new esri.symbol.TextSymbol(arg.data.data[i].name).setColor(new dojo.Color([178, 34, 34]));
+					} else if(arg.data.data[i].arrangement.name == "市重点") {
+						//alert(1) 绿色
+						symbolm = new esri.symbol.SimpleFillSymbol(esri.symbol.SimpleFillSymbol.STYLE_SOLID, new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color([0, 205, 0]), 1), new dojo.Color([0, 205, 0, 0.15]));
+						//textSym = new esri.symbol.TextSymbol(arg.data.data[i].name).setColor(new dojo.Color([0, 205, 0]));
+					} else if(arg.data.data[i].arrangement.name == "区重点") {
+						//alert(1) 蓝色
+						symbolm = new esri.symbol.SimpleFillSymbol(esri.symbol.SimpleFillSymbol.STYLE_SOLID, new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color([0, 0, 255]), 1), new dojo.Color([0, 0, 255, 0.15]));
+						//textSym = new esri.symbol.TextSymbol(arg.data.data[i].name).setColor(new dojo.Color([0, 0, 255]));
+					}
+
+					var graphic = new esri.Graphic(graphicm, symbolm, {
+						"name": arg.data.data[i].name, //标题
+						"adr": arg.data.data[i].buildPlace.name, //建设地点
+						"tz": arg.data.data[i].totalInvestment, //总投资
+						"id": arg.data.data[i].id, //项目id
+						"sszt": arg.data.data[i].conductSubject, //实施主体
+						"xmcc": arg.data.data[i].arrangement.name, //项目层次
+						"dytz": arg.data.data[i].projMonth.monthInvestmentReal,
+						"dqljtz": arg.data.data[i].projMonth.currentInvestmentReal,
+						"jskssj": arg.data.data[i].buildYearStart,
+						"jsjssj": arg.data.data[i].buildYearEnd
+					});
+
+					var graphci = new esri.Graphic(graphicm_text, textSym);
+
+					mygraphicsLayer.add(graphic);
+					textLayer.add(graphci);
+
+					var extent = graphic.geometry.getExtent();
+
+					if(extent == '' || typeof(extent) == 'undefined') {
+						
+					}
+
+					var cp = graphic.geometry.getExtent().getCenter();
+
+					var graphicpp = new esri.Graphic(cp);
+
+					var graphicpp1 = new esri.Graphic(cp, textSym);
+
+					var text = new esri.Graphic(textSym);
+					var graphicpp = new esri.Graphic(cp, textSym);
+					mygraphicsLayer.add(graphicpp);
+
+					textLayer.add(graphicpp1);
+					mygraphicsLayer.setScaleRange(1155600, 0);
+					
+					if(rlen==1){
+						console.log(cp)
+						var lonlat = mercator2lonlat(cp.x,cp.y);
+						attachViewPoiToEarth(lonlat.x,lonlat.y);
+						//viewPoiToEarth(arg.data.data[i].id,arg.data.data[i].name, cp.x, cp.y, arg.data.data[i].buildPlace.name,arg.data.data[i].totalInvestment,arg.data.data[i].finishInvestment,arg.data.data[i].conductSubject,arg.data.data[i].buildYearStart,arg.data.data[i].buildYearEnd,arg.data.data[i].arrangement.name)
+					}
+				}
+				
+
+			}
+
+			window.onload = function() {
+				initAllMapData();
+			}
+			
+			//定位
+			function attachViewPoiToEarth(x,y) {
+			    var point = new esri.geometry.Point([x, y]);
+			    MyMap.centerAndZoom(point,16);
+			}
+
+			function ajaxRequst_get(url, backfunction) {
+				var xmlhttp;
+				if(window.XMLHttpRequest) { // code for IE7+, Firefox, Chrome, Opera, Safari
+					xmlhttp = new XMLHttpRequest();
+				} else { // code for IE6, IE5
+					xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+				}
+				xmlhttp.onreadystatechange = function() {
+					if(xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+						backfunction(xmlhttp.responseText);
+					}
+				};
+				var newpa = "";
+				if(url.indexOf("?") > -1) {
+					newpa = url.substring(0, url.indexOf("?")) + "?";
+					url = url.substring(url.indexOf("?") + 1);
+
+					var pa = url.split("&");
+
+					for(var i = 0; i < pa.length; i++) {
+						var mn = pa[i].split("=");
+						newpa += mn[0] + "=" + encodeURIComponent(mn[1]) + "&";
+					}
+				} else {
+					newpa = url;
+				}
+				newpa = newpa + "t=" + new Date().getTime();
+				newpa = encodeURI(newpa);
+				xmlhttp.open("GET", newpa, true);
+				xmlhttp.send();
+			}
+		</script>
+	</body>
+
+</html>

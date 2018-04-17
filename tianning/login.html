@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+		<style>
+			body {
+				background-size:cover;
+			}
+			.area {
+				margin: 20px auto 0px auto;
+			}
+			
+			.mui-input-group {
+				margin-top: 10px;
+			}
+			
+			.mui-input-group:first-child {
+				margin-top: 20px;
+			}
+			
+			.mui-input-group label {
+				width: 22%;
+			}
+			
+			.mui-input-row label~input,
+			.mui-input-row label~select,
+			.mui-input-row label~textarea {
+				width: 78%;
+			}
+			
+			.mui-checkbox input[type=checkbox],
+			.mui-radio input[type=radio] {
+				top: 6px;
+			}
+			
+			.mui-content-padded {
+				margin:0;
+				margin-top: 25px;
+			}
+			
+			.mui-btn {
+				padding: 10px;
+				border: 0.1px solid #fff;
+			}
+			
+			.link-area {
+				display: block;
+				margin-top: 25px;
+				text-align: center;
+			}
+			
+			.spliter {
+				color: #bbb;
+				padding: 0px 8px;
+			}
+			
+			.oauth-area {
+				position: absolute;
+				bottom: 20px;
+				left: 0px;
+				text-align: center;
+				width: 100%;
+				padding: 0px;
+				margin: 0px;
+			}
+			
+			.oauth-area .oauth-btn {
+				display: inline-block;
+				width: 50px;
+				height: 50px;
+				background-size: 30px 30px;
+				background-position: center center;
+				background-repeat: no-repeat;
+				margin: 0px 20px;
+				/*-webkit-filter: grayscale(100%); */
+				border: solid 1px #ddd;
+			}
+			
+			.oauth-area .oauth-btn:active {
+				border: solid 1px #aaa;
+			}
+			
+			.oauth-area .oauth-btn.disabled {
+				background-color: #ddd;
+			}
+			
+			body{
+				/*background-color:#2697EB; */
+				width:80%;
+				margin-left: auto;
+				margin-right: auto;
+				background:transparent;
+				background-color:rgba(64,175,250,0.9);
+			}
+			
+			
+			input[type=password],input[type=text]{
+				border: 0.1px solid #fff;
+			}
+			
+		</style>
+		
+		
+	</head>
+
+	<body>
+		<div class="mui-content" style="background:none;">
+			<div class="mui-content-padded" style="text-align: center;color: #FFFFFF;">
+				<img src="images/logo.png" width="100" height="100" />
+			</div>
+			<div class="mui-content-padded" style="text-align: center;color: #FFFFFF;">
+				<h3>天宁重点项目督查系统</h3>
+			</div>
+			<form id='login-form' style="margin-top:30%;">
+				<div class="mui-input-row">
+					<input type="text" class="mui-input-clear" name="userName" id="userName" placeholder="账号">
+				</div>
+				<div class="mui-input-row">
+					<input type="password" class="mui-input-clear" name="password" id="password" placeholder="密码">
+				</div>
+			</form>
+			<div class="mui-content-padded">
+				<button id='loginBtn' class="mui-btn mui-btn-block" style="color: #4BAFFA;width:100%;">登录</button>
+				<!--<div class="link-area"><a id='reg'>注册账号</a> <span class="spliter">|</span> <a id='forgetPassword'>忘记密码</a>
+				</div>-->
+			</div>
+
+			<div class="mui-content-padded oauth-area">
+
+			</div>
+		</div>
+		<script type="text/javascript" src="js/url.js" ></script>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/mui.jsonp.js"></script>
+		<script src="js/mui.enterfocus.js"></script>
+		<script src="js/app.js"></script>
+
+		<script type="text/javascript">
+			document.getElementById("loginBtn").addEventListener('tap', function() {
+				login();
+			});
+			
+			function login() {
+				mui.ajax(commonUrl+'/android/user/login',{
+					data: {
+						username: mui("#userName")[0].value,
+						password: mui("#password")[0].value
+					},
+//					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					success: function(data) {
+					//token = data.token;
+						//获得服务器响应
+						if(data.code=='1'){
+							//alert(data.token)
+							sessionStorage.setItem("token",data.token);
+							sessionStorage.setItem('username',data.data.username);
+							//getRoleIdByUserName(data.token);
+							
+			//     http://localhost:8080/android/time/get?time=
+							mui.ajax(commonUrl+'/android/time/get',{
+//							data:{
+//								time:''
+//							},
+							type:'post',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							success:function(data){
+								//服务器返回响应，根据响应结果，分析是否登录成功；
+								console.log(data);
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+							}
+						});
+							
+							
+//							var webview = mui.openWindow({
+//							    url:'main.html',
+//							    id:"index",
+//							    extras:{
+//									name:'mui'  //扩展参数
+//								},
+//							    createNew:false,//是否重复创建同样id的webview，默认为false:不重复创建，直接显示
+//							    show:{
+//							      autoShow:true,//页面loaded事件发生后自动显示，默认为true
+//							    }
+//							});
+							
+						}else{
+							mui.alert('用户名/密码不正确', function() {});
+						}
+					}
+				});
+			
+			}
+		</script>
+	</body>
+
+</html>

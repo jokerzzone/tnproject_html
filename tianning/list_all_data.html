@@ -1,0 +1,514 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>详情信息</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/mui.picker.min.css" />
+	<style>
+		.mui-table-view-cell.mui-collapse .mui-collapse-content{
+			padding: 0;
+		}
+		.mui-table-view-cell.mui-collapse .mui-table-view .mui-table-view-cell:after {
+			height: 0;
+		}
+		.mui-table-view-cell.mui-collapse .mui-table-view {
+			margin-left: 15px;
+			margin-top: 0;
+			margin-bottom: 10px;
+		}
+		.mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-body {
+			width: 100%;
+			height: 50px;
+			font-size: 14px;
+			display: block;
+			line-height: 50px;
+		}
+		.mui-table-view-cell>a:not(.mui-btn){
+			text-align: left;
+		}
+		.mui-table-view-cell.mui-collapse .mui-table-view {
+			margin: 0;
+		}
+		.mui-table-view-cell.mui-collapse .mui-table-view .mui-table-view-cell {
+			padding: 0;
+		}
+		.mui-input-row {
+			clear: none;
+		}
+		.mui-input-row label {
+			height: 50px;
+			line-height: 2.1;
+			padding-right: 0!important;
+			border-right: 1px solid #eee;
+		}
+		.mui-input-row input {
+			height: 50px;
+		}
+		.mui-input-row input[type="text"],
+		.mui-input-row textarea {
+			border-bottom: 1px solid #ccc!important;
+			border-radius: 0;
+			font-size: 12px;
+			padding-left: 5px!important;
+			float: left;
+		}
+		.mui-input-row:nth-child(even){
+			background-color: #F0F0F0;
+		}
+		.mui-input-row:nth-child(odd){
+			/*background-color: #eee;*/
+		}
+		.mui-card .mui-table-view .mui-table-view-cell:first-child, .mui-card .mui-table-view .mui-table-view-divider:first-child {
+			border-radius: 0;
+		}
+		.mui-input-row .mui-btn{
+			width: 120px!important;
+			margin: 0 auto;
+			float: none;
+			background-color: #4BAFFA;
+			border:0;
+		}
+		#startTime,
+		#endTime {
+			margin: 0;
+			background-color: #fff;
+		}
+		
+		.label {
+			width: 85px!important;
+		}
+	</style>
+	</head>
+
+	<body>
+		<!--头部-->
+		<header class="mui-bar mui-bar-nav" style="background: #4BAFFA;">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color:#fff;"></a>
+			<h1 class="mui-title" style="color:#fff">详情信息</h1>
+		</header>
+		<div class="mui-content">
+			<div class="mui-card" style="margin: 0;">
+				<ul class="mui-table-view ul_all">
+					<li class="mui-table-view-cell mui-collapse">
+						<a class="mui-navigate-right" href="#">
+							<span class="mui-col-xs-5" style="display: inline-block;">1</span>
+							<span class="mui-col-xs-7" style="display: inline-block;">基本信息</span>
+						</a>
+						<div class="mui-collapse-content">
+							<ul class="mui-table-view">
+					            <li class="essential mui-table-view-cell mui-media">
+					                <div class="mui-media-body">
+										<div class="mui-input-row mui-col-xs-12">
+											<label class="label">名称</label>
+											<input class="essential_name" type="text" value="">
+										</div>
+										<div class="mui-input-row mui-col-xs-12">
+											<label class="label">内容</label>
+											<input class="essential_content" type="text" value="">
+										</div>
+										<div class="mui-input-row mui-col-xs-12">
+											<label class="label">实施主体</label>
+											<input class="essential_conductSubject" type="text" value="">
+										</div>
+										<div class="mui-input-row mui-col-xs-12">
+											<label class="label">责任单位</label>
+											<input class="essential_buildPlaceName" type="text" value="">
+										</div>
+										<div class="mui-input-row mui-col-xs-12">
+											<label class="label">建设年限</label>
+											<input class="essential_buildYear" type="text" value="">
+										</div>
+										<div class="mui-input-row mui-col-xs-12">
+											<label class="label">阶段</label>
+											<input class="essential_conductCategoryName" type="text" value="">
+										</div>
+										<div class="mui-input-row mui-col-xs-12">
+											<label class="label">行业</label>
+											<input class="essential_projectTypeName" type="text" value="">
+										</div>
+										<div class="mui-input-row mui-col-xs-12">
+											<label class="label">性质</label>
+											<input class="essential_projectPropertyName" type="text" value="">
+										</div>
+										<div class="mui-input-row mui-col-xs-12">
+											<label class="label">类别</label>
+											<input class="essential_conductPeriodName" type="text" value="">
+										</div>
+										<div class="mui-input-row mui-col-xs-12">
+											<label class="label">层次</label>
+											<input class="essential_arrangementName" type="text" value="">
+										</div>
+										<div class="mui-input-row mui-col-xs-12">
+											<label class="label">目标形象</label>
+											<input class="essential_yearTarget" type="text" value="">
+										</div>
+										<div class="mui-input-row mui-col-xs-12">
+											<button type="button" class="btn mui-btn mui-btn-primary mui-btn-block">保存</button>
+										</div>
+					                </div>
+					            </li>
+					        </ul> 
+						</div>
+					</li>
+					<li class="mui-table-view-cell mui-collapse">
+						<a class="mui-navigate-right" href="#">
+							<span class="mui-col-xs-5" style="display: inline-block;">2</span>
+							<span class="mui-col-xs-7" style="display: inline-block;">责任人</span>
+						</a>
+						<div class="mui-collapse-content">
+							<ul class="mui-table-view">
+					            <li class="essential mui-table-view-cell mui-media">
+					                <div class="mui-media-body">
+					                	<div class="mui-input-row mui-col-xs-12">
+											<label class="label">业主信息</label>
+											<input class="essential_conductContactName" type="text" value="">
+										</div>
+										<div class="mui-input-row mui-col-xs-12">
+											<label class="label">属地信息</label>
+											<input class="essential_belongArea" type="text" value="">
+										</div>
+										<div class="mui-input-row mui-col-xs-12">
+											<label class="label">专员信息</label>
+											<input class="essential_buildAgent" type="text" value="">
+										</div>
+										<div class="mui-input-row mui-col-xs-12">
+											<label class="label">挂钩领导</label>
+											<input class="essential_hookLeaderName" type="text" value="">
+										</div>
+										<div class="mui-input-row mui-col-xs-12">
+											<button type="button" class="btn mui-btn mui-btn-primary mui-btn-block">保存</button>
+										</div>
+					                </div>
+					            </li>
+					        </ul> 
+						</div>
+					</li>
+					<li class="mui-table-view-cell mui-collapse">
+						<a class="mui-navigate-right" href="#">
+							<span class="mui-col-xs-5" style="display: inline-block;">3</span>
+							<span class="mui-col-xs-7" style="display: inline-block;">投资金额</span>
+						</a>
+						<div class="mui-collapse-content">
+							<ul class="mui-table-view">
+					            <li class="mui-table-view-cell mui-media">
+					                <div class="mui-media-body">
+					                	<div class="mui-input-row mui-col-xs-12">
+											<label class="label">总投资</label>
+											<input class="essential_totalInvestment" type="text" value="">
+										</div>
+										<div class="mui-input-row mui-col-xs-12">
+											<label class="label">国资比例</label>
+											<input class="essential_yearFinancing" type="text" value="">
+										</div>
+										<div class="mui-input-row mui-col-xs-12">
+											<label class="label">已投资</label>
+											<input class="essential_finishInvestment" type="text" value="">
+										</div>
+										<div class="mui-input-row mui-col-xs-12">
+											<label class="label">年度计划</label>
+											<input class="essential_planInvestment" type="text" value="">
+										</div>
+										<div class="mui-input-row mui-col-xs-12">
+											<button type="button" class="btn mui-btn mui-btn-primary mui-btn-block">保存</button>
+										</div>
+					                </div>
+					            </li>
+					        </ul> 
+						</div>
+					</li>
+					<li class="mui-table-view-cell mui-collapse">
+						<a class="mui-navigate-right" href="#">
+							<span class="mui-col-xs-5" style="display: inline-block;">4</span>
+							<span class="mui-col-xs-7" style="display: inline-block;">前期手续</span>
+						</a>
+						<div class="mui-collapse-content">
+							<ul class="mui-table-view">
+					            <li class="mui-table-view-cell mui-media">
+					                <div class="mui-media-body">
+					                	<div id="procedures">
+						                	<div class="procedures_list mui-input-row mui-pull-left mui-col-xs-12 mui-table-view-cell" style="display: none;">
+												<span id="procedures_listName" class="procedures_listName" style="width:200px;display: inline-block; line-height: 40px; padding-left: 15px;">力顶手续</span>
+												<label class="" style="width: auto; float: right; line-height: 20px;"><input type="checkbox" />是否已办妥</label>
+											</div>
+										</div>
+					                	<div class="mui-input-row mui-col-xs-12">
+											<button type="button" class="btn mui-btn mui-btn-primary mui-btn-block">保存</button>
+										</div>
+					                </div>
+					            </li>
+					            
+					        </ul> 
+						</div>
+					</li>
+					<li class="mui-table-view-cell mui-collapse">
+						<a class="mui-navigate-right" href="#">
+							<span class="mui-col-xs-5" style="display: inline-block;">5</span>
+							<span class="mui-col-xs-7" style="display: inline-block;">投资和进度</span>
+						</a>
+						<div class="mui-collapse-content">
+							<ul class="mui-table-view">
+					            <li class="mui-table-view-cell mui-media">
+					                <div class="mui-media-body">
+					                	<div class="mui-input-row mui-col-xs-12">
+											<label class="label">开工情况</label>
+											<label><input class="invest_startStatus" type="checkbox">开工</label>
+										</div>
+										<div class="mui-input-row mui-col-xs-12">
+											<label class="label">开工时间</label>
+											<button id='startTime' data-options='{"type":"month"}' class="invest_startTime btn mui-btn mui-btn-block">2017-3</button>
+										</div>
+										<div class="mui-input-row mui-col-xs-12">
+											<label class="label">竣工情况</label>
+											<label><input class="invest_finishStatus" type="checkbox">竣工</label>
+										</div>
+										<div class="mui-input-row mui-col-xs-12">
+											<label class="label">竣工时间</label>
+											<button id='endTime' data-options='{"type":"month"}' class="invest_finishTime btn mui-btn mui-btn-block">2017-3</button>
+										</div>
+										<div class="mui-input-row mui-col-xs-12">
+											<label class="label">03月投资（预计）</label>
+											<input class="invest_monthInvestment" type="text" value="">
+										</div>
+										<div class="mui-input-row mui-col-xs-12">
+											<label class="label">至3月累计投资（预计）</label>
+											<input class="essential_monthInvest" type="text" value="0万元">
+										</div>
+										<div class="mui-input-row mui-col-xs-12">
+											<label class="label">时序进度</label>
+											<input class="invest_rate" type="text" value="0.0%">
+										</div>
+										<div class="mui-input-row mui-col-xs-12">
+											<label class="label">形象进度</label>
+											<textarea class="invest_monthFigureProgress" name="" rows="" cols="" ></textarea>
+										</div>
+										<div class="mui-input-row mui-col-xs-12">
+											<label class="label">对策措施</label>
+											<textarea class="invest_measures" name="" rows="" cols="" ></textarea>
+										</div>
+										<div class="mui-input-row mui-col-xs-12">
+											<label class="label">备注情况</label>
+											<textarea class="invest_remarks" name="" rows="" cols="" ></textarea>
+										</div>
+										<div class="mui-input-row mui-col-xs-12">
+											<label class="label">更新时间</label>
+											<input class="invest_updateTime" type="text" value="">
+										</div>
+										<div class="mui-input-row mui-col-xs-12">
+											<button type="button" class="btn mui-btn mui-btn-primary mui-btn-block">保存</button>
+										</div>
+					                </div>
+					            </li>
+					        </ul> 
+						</div>
+					</li>
+					<li class="mui-table-view-cell mui-collapse">
+						<a class="mui-navigate-right" href="#">
+							<span class="mui-col-xs-5" style="display: inline-block;">6</span>
+							<span class="mui-col-xs-7" style="display: inline-block;">现场情况</span>
+						</a>
+						<div class="mui-collapse-content">
+							<ul class="mui-table-view">
+					            <li class="li_one mui-table-view-cell mui-media">
+					                <div class="mui-media-body">
+					                	<div class="mui-input-row mui-col-xs-12">
+											<button type="button" class="btn mui-btn mui-btn-primary mui-btn-block">保存</button>
+										</div>
+					                </div>
+					            </li>
+					        </ul> 
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<script src="js/url.js"></script>
+		<script src="js/jquery.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/mui.picker.min.js"></script>
+		<script type="text/javascript" src="js/tool.js" ></script>
+		<script type="text/javascript">
+			mui.init();
+//  获取页面url的type和content
+			function getUrlParam(key){
+			    // 获取参数
+			    var url = window.location.search;
+			    // 正则筛选地址栏
+			    var reg = new RegExp("(^|&)"+ key +"=([^&]*)(&|$)");
+			    // 匹配目标参数
+			    var result = url.substr(1).match(reg);
+			    //返回参数值
+			    return result ? decodeURIComponent(result[2]) : null;
+			}
+			var projectId=getUrlParam("id");
+//Dom加载后页面初始化	
+		mui.ready(function(){
+			loadData();	
+			process();
+			invest();
+			});
+//  详细信息
+		function loadData(){
+			mui.ajax(commonUrl+'/android/project/listByProjectId',{
+				data:{
+					projectId:projectId
+				},
+				type:'post',//HTTP请求类型
+				timeout:10000,//超时时间设置为10秒；
+				success:function(data){
+//						console.log(data);
+					//服务器返回响应，根据响应结果，分析是否登录成功；
+					if(data.code==1){
+//						基本信息
+						$(".essential_name").val(data.data[0].name);
+						$(".essential_content").val(data.data[0].content);
+						$(".essential_conductSubject").val(data.data[0].conductSubject);
+						$(".essential_buildPlaceName").val(data.data[0].buildPlace.name);
+						$(".essential_buildYear").val(data.data[0].buildYearStart.substring(0,4)+"-"+data.data[0].buildYearEnd.substring(0,4));
+						$(".essential_conductCategoryName").val(data.data[0].conductCategory.name);
+						$(".essential_projectTypeName").val(data.data[0].projectType.name);
+						$(".essential_projectPropertyName").val(data.data[0].projectProperty.name);
+						$(".essential_conductPeriodName").val(data.data[0].conductPeriod.name);
+						$(".essential_arrangementName").val(data.data[0].arrangement.name);
+						$(".essential_yearTarget").val(data.data[0].yearTarget);
+//						责任人
+						$(".essential_conductContactName").val(data.data[0].conductContactsName);
+						$(".essential_belongArea").val(data.data[0].belongArea);
+						$(".essential_buildAgent").val(data.data[0].buildAgent);
+						$(".essential_hookLeaderName").val(data.data[0].hookleader.name);
+//						投资金额
+						$(".essential_totalInvestment").val(data.data[0].totalInvestment+"万元");
+						$(".essential_yearFinancing").val(data.data[0].yearFinancing+"%");
+						$(".essential_finishInvestment").val(data.data[0].finishInvestment+"万元");
+						$(".essential_planInvestment").val(data.data[0].planInvestment+"万元");
+//						投资和进度
+//						var startStatus = data.data[0].startStatus;
+//						var finishStatus = data.data[0].finishStatus;
+//						$(".invest_startStatus").val(data.data[0].startStatus);
+//						$(".invest_finishStatus").val(data.data[0].finishStatus);
+					}
+				},
+				error:function(xhr,type,errorThrown){
+					//异常处理；
+					console.log(type);
+				}
+			});
+		}
+//  前期手续
+		function process(){
+			mui.ajax(commonUrl+'/android/formalityCategory/listAll',{
+					type:'post',//HTTP请求类型
+					timeout:10000,//超时时间设置为10秒；
+					success:function(data){
+						//服务器返回响应，根据响应结果，分析是否登录成功；
+						if(data.code==1){
+							for(var i=0;i<data.data.length;i++){
+								var procedures_list = $(".procedures_list").first().clone();
+								$("#procedures").append(procedures_list);
+								procedures_list.show();
+								procedures_list.find(".procedures_listName").html(data.data[i].name);
+								procedures_list.find(".procedures_listName").attr("id",data.data[i].id);
+							}
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						//异常处理；
+						console.log(type);
+					}
+				});
+		
+		}
+//  前期手续点击进入手续列表页面
+		mui("#procedures").on('tap', '.procedures_listName', function() {
+			//获取id
+			var id = this.getAttribute("id");
+			mui.openWindow({
+			    url: 'list_procedure.html?id='+id+'&projectId='+projectId, 
+			    id:'list_procedure'
+			});
+		})
+//  投资进度
+		function invest(){
+			mui.ajax(commonUrl+'/android/projectMonth/listByProjectId',{
+					data:{
+						projectId:projectId
+					},
+					type:'get',//HTTP请求类型
+					timeout:10000,//超时时间设置为10秒；
+					success:function(data){
+						console.log(data);
+						//服务器返回响应，根据响应结果，分析是否登录成功；
+						if(data.code==1){
+							$(".invest_startTime").val(data.data.startTime);
+							$(".invest_finishTime").val(data.data.finishTime);
+							$(".invest_monthInvestment").val(data.data.monthInvestment+"万元");
+							$(".invest_monthFigureProgress").val(data.data.monthFigureProgress);
+							$(".invest_measures").val(data.data.measures);
+							$(".invest_remarks").val(data.data.remarks);
+							$(".invest_updateTime").val(data.data.updateTime);
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						//异常处理；
+						console.log(type);
+					}
+				});
+		}
+//  设置为只读
+		$(".essential div div input").click(function(){
+			this.readOnly=true;
+		});
+//  设置时间
+			(function($) {
+				$.init();
+				var startTime= $('#startTime')[0];
+				var endTime= $('#endTime')[0];
+					startTime.addEventListener('tap', function() {
+						var _self = this;
+						if(_self.picker) {
+							_self.picker.show(function (rs) {
+								startTime.innerText = rs.text;
+								_self.picker.dispose();
+								_self.picker = null;
+							});
+						} else {
+							var optionsJson = this.getAttribute('data-options') || '{}';
+							var options = JSON.parse(optionsJson);
+							var id = this.getAttribute('id');
+							_self.picker = new $.DtPicker(options);
+							_self.picker.show(function(rs) {
+								startTime.innerText = rs.text;
+								_self.picker.dispose();
+								_self.picker = null;
+							});
+						}
+						
+					}, false);
+					endTime.addEventListener('tap', function() {
+						var _self = this;
+						if(_self.picker) {
+							_self.picker.show(function (rs) {
+								endTime.innerText = rs.text;
+								_self.picker.dispose();
+								_self.picker = null;
+							});
+						} else {
+							var optionsJson = this.getAttribute('data-options') || '{}';
+							var options = JSON.parse(optionsJson);
+							var id = this.getAttribute('id');
+							_self.picker = new $.DtPicker(options);
+							_self.picker.show(function(rs) {
+								endTime.innerText = rs.text;
+								_self.picker.dispose();
+								_self.picker = null;
+							});
+						}
+						
+					}, false);
+			})(mui);
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,54 @@
+{
+	"index.html": {
+		"resources": [
+			"reports2.html",
+			"main.html",
+			"js/tool.js"
+		],
+		"refer": [
+			"reports2.html",
+			"main.html",
+			"map.html",
+			"set.html",
+			"reports.html"
+		]
+	},
+	"main.html": {
+		"refer": [
+			"qinglong.html",
+			"list_all.html"
+		],
+		"resources": []
+	},
+	"login.html": {
+		"refer": [
+			"main.html",
+			"index.html"
+		],
+		"resources": [
+			"images/sinaweibo.png",
+			"images/qq.png"
+		]
+	},
+	"set.html": {
+		"resources": [
+			"js/mui.min.js",
+			"js/feedback.js",
+			"js/mui.view.js"
+		],
+		"refer": [
+			"login.html"
+		]
+	},
+	"list_all.html": {
+		"refer": [
+			"list_all_data.html",
+			"map.html"
+		]
+	},
+	"list_all_data.html": {
+		"refer": [
+			"list_procedure.html"
+		]
+	}
+}

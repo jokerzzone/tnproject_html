@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>报表</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css">
+		<!--<link rel="stylesheet" type="text/css" href="css/app.css" />-->
+		<link rel="stylesheet" type="text/css" href="css/mui.picker.min.css" />
+		<style>
+			.mui-bar {
+				padding: 0;
+			}
+			
+			.mui-bar-nav {
+				box-shadow: none;
+			}
+			
+			.mui-segmented-control {
+				border: 0;
+				border-radius: 0;
+			}
+			
+			.mui-bar .mui-segmented-control {
+				top: 0;
+			}
+			
+			.mui-segmented-control .mui-control-item {
+				color: #fff;
+				border-left: none;
+			}
+			
+			.mui-segmented-control .mui-control-item.mui-active {
+				background-color: #4BAFFA;
+				border-bottom: 1px solid #fff;
+			}
+			
+			.item2_top {
+				width: 100%;
+				height: 50px;
+				padding-right: 15px;
+				padding-top: 10px;
+				background-color: #eee;
+			}
+			
+			.item2_top button {
+				width: 100px;
+				height: 40px;
+				line-height: 40px;
+				padding: 0;
+				font-size: 14px;
+			}
+			
+			.item2_top span {
+				display: block;
+				font-size: 14px;
+				line-height: 40px;
+				margin-right: 10px;
+			}
+			
+			.mui-table-view:before,
+			.mui-table-view:after {
+				height: 0;
+			}
+			
+			.mui-table-view-cell:after {
+				right: 15px;
+			}
+			
+			.reports_list li .reports_list_data a span:first-child {
+				width: 20px;
+				height: 20px;
+				background-color: #2cb498;
+				border-radius: 5px;
+				display: inline-block;
+				text-align: center;
+				color: #fff;
+				line-height: 20px;
+				margin-right: 20px;
+			}
+			
+			.reports_list li .reports_list_data a span:last-child {
+				color: #000;
+			}
+			
+			li {
+				list-style: none;
+			}
+			
+			.mui-table-view.mui-grid-view {
+				padding: 10px;
+			}
+			
+			.mui-table-view.mui-grid-view .mui-table-view-cell {
+				padding: 0;
+			}
+			
+			.mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-body {
+				min-width: 125px;
+				height: 40px;
+				margin-top: 0;
+				line-height: 40px;
+			}
+			
+			.mui-btn-block {
+				font-size: 14px;
+				padding: 0;
+				height: 35px;
+				width: 80px;
+				min-width: 40px;
+				border: 1px solid #ccc!important;
+			}
+			
+			#btn_search {
+				background-color: #23c6c8;
+				color: #fff;
+				width: 80px;
+				height: 35px;
+				left: 45px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="background-color: #4BAFFA;">
+			<div id="segmentedControl" class="mui-segmented-control" style="height: 100%;">
+				<a class="mui-control-item mui-active" href="#item1">统计图表</a>
+				<a class="mui-control-item" href="#item2">统计报表</a>
+			</div>
+		</header>
+		<div class="mui-content">
+			<!--统计图表-->
+			<div id="item1" class="mui-control-content mui-active">
+				<ul class="mui-table-view mui-grid-view">
+					<li class="mui-table-view-cell mui-media mui-col-xs-6">
+						<div class="mui-media-body">
+							<span class="mui-pull-left">性质：</span>
+							<select id="projectPropertyId" class="mui-btn mui-btn-block mui-pull-left">
+							</select>
+						</div>
+					</li>
+					<li class="mui-table-view-cell mui-media mui-col-xs-6">
+						<div class="mui-media-body">
+							<span class="mui-pull-left mui-pull-left">阶段：</span>
+							<select id="conductCategoryId" class="mui-btn mui-btn-block">
+							</select>
+						</div>
+					</li>
+					<li class="mui-table-view-cell mui-media mui-col-xs-6">
+						<div class="mui-media-body">
+							<span  class="mui-pull-left">层次：</span>
+							<select id="arrangementId"  class="mui-btn mui-btn-block mui-pull-left">
+							</select>
+						</div>
+					</li>
+					<li class="mui-table-view-cell mui-media mui-col-xs-6">
+						<div class="mui-media-body">
+							<button id="btn_search" type="button" class="mui-btn mui-pull-left">查询</button>
+						</div>
+
+					</li>
+				</ul>
+				<div class="mui-content-padded">
+					<div id="one" class="" style="width: 100%; height: 200px; padding: 10px;"></div>
+					<div id="two" class="" style="width: 100%; height: 200px; padding: 10px;"></div>
+					<div id="three" class="" style="width: 100%; height: 200px; padding: 10px;"></div>
+				</div>
+			</div>
+			<!--统计报表-->
+			<div id="item2" class="mui-control-content">
+				<div class="item2_top" style="display: none;">
+					<button id="demo" data-options="{&quot;type&quot;:&quot;month&quot;}" class="btn mui-btn mui-btn-block mui-pull-right">2018-03</button>
+					<span class="mui-pull-right">
+							时间
+						</span>
+				</div>
+				<ul id="OA_task_1" class="mui-table-view reports_list">
+					<li class="report_forms mui-table-view-cell mui-transitioning" style="display: none; line-height: 45px;">
+						<div class="mui-slider-right mui-disabled roleControl">
+							<a class="mui-btn mui-btn-red" style="transform: translate(0px, 0px);">删除</a>
+						</div>
+						<div class="mui-slider-handle reports_list_data" style="transform: translate(0px, 0px);">
+							<a class="downloadList" href="#" style="width: 100%; display: block;">
+								<span class="list_one"></span>
+								<span class="list_two"></span>
+							</a>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<script src="js/url.js"></script>
+		<script src="js/jquery.min.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/mui.picker.min.js"></script>
+		<script src="js/mui.pullToRefresh.js"></script>
+		<script src="js/mui.pullToRefresh.material.js"></script>
+		<script src="libs/echarts-all.js"></script>
+		<script>
+			var chartOne_x = [];
+			var chartOne_s = [];
+			var chartTwo_x = [];
+			var chartTwo_s1 = [];
+			var chartTwo_s2 = [];
+			var chartTwo_s3 = [];
+			var chartThree_v1;
+			var chartThree_v2;
+			var chartThree_v3;
+
+			function getData() {
+				var token = sessionStorage.getItem('token');
+				mui.ajax(commonUrl+'/android/count/list;jsessionid='+token, {
+					dataType: 'json', //服务器返回json格式数据
+					async: false,
+					data:{
+						
+					},
+					type: 'post', //HTTP请求类型
+					success: function(data) {
+						if(data.code == 1) {
+							//chart1
+							var chart1 = data.data.chart1;
+							for(var i = 0; i < chart1.length; i++) {
+								chartOne_x.push(chart1[i].name);
+								chartOne_s.push(chart1[i].count);
+							}
+							//chart2
+							var chart2 = data.data.chart2;
+							for(var i = 0; i < chart2.length; i++) {
+								chartTwo_x.push(chart2[i].name);
+								chartTwo_s1.push(chart2[i].planInvest);
+								chartTwo_s2.push(chart2[i].totalInvest);
+								chartTwo_s3.push(chart2[i].finishInvest);
+							}
+							//chart3
+							var chart3 = data.data.chart3;
+							chartThree_v1 = chart3.finished;
+							chartThree_v2 = chart3.started;
+							chartThree_v3 = chart3.unStarted;
+							
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						//异常处理；
+						console.log(type);
+					}
+				});
+			}
+
+			function initChartOne() {
+				chart = echarts.init(document.getElementById("one"));
+				chartOption = {
+					tooltip: {
+						trigger: 'axis'
+					},
+					legend: {
+						data: ['项目数量']
+					},
+					toolbox: {
+						show: true,
+						feature: {}
+					},
+					calculable: true,
+					grid: {
+						x: 30,
+						x2: 5,
+						y: 30,
+						y2: 25
+					},
+					xAxis: [{
+						type: 'category',
+						data: chartOne_x
+					}],
+					yAxis: [{
+						type: 'value',
+						splitArea: {
+							show: true
+						}
+					}],
+					series: [{
+						name: '项目数量',
+						type: 'bar',
+						itemStyle: {
+							normal: {
+								color: ''
+							}
+						},
+						data: chartOne_s
+					}]
+				};
+				chart.setOption(chartOption);
+			}
+
+			function initChartTwo() {
+				chart = echarts.init(document.getElementById("two"));
+				chartOption = {
+					/* title : {
+					     text: '项目投资(亿)'
+					 },*/
+					tooltip: {
+						trigger: 'axis'
+					},
+					legend: {
+						data: ['投资总额', '计划投资', '已经投资']
+					},
+					toolbox: {
+						show: true,
+						feature: {
+
+						}
+					},
+					grid: {
+						x: 35,
+						x2: 5,
+						y: 30,
+						y2: 25
+					},
+					calculable: true,
+					xAxis: [{
+						type: 'category',
+						data: chartTwo_x
+					}],
+					yAxis: [{
+						type: 'value'
+					}],
+					series: [{
+							name: '投资总额',
+							type: 'bar',
+							data: chartTwo_s1
+						},
+						{
+							name: '计划投资',
+							type: 'bar',
+							data: chartTwo_s2
+						},
+						{
+							name: '已经投资',
+							type: 'bar',
+							data: chartTwo_s3
+						}
+					]
+				}
+				chart.setOption(chartOption);
+			}
+
+			function initChartThree() {
+				chart = echarts.init(document.getElementById("three"));
+				chartOption = {
+					//			    title : {
+					//			        text: '工程进度',
+					//			        //x:'center'
+					//			    },
+					tooltip: {
+						trigger: 'item',
+						formatter: "{a} <br/>{b} : {c} ({d}%)"
+					},
+					legend: {
+						orient: 'vertical',
+						x: 'left',
+						data: ['已竣工', '开工在建', '未开工']
+					},
+					toolbox: {
+						show: true,
+						feature: {}
+					},
+					calculable: true,
+					series: [{
+						name: '工程进度',
+						type: 'pie',
+						radius: '55%',
+						center: ['50%', '60%'],
+						data: [{
+								value: chartThree_v1,
+								name: '已竣工'
+							},
+							{
+								value: chartThree_v2,
+								name: '开工在建'
+							},
+							{
+								value: chartThree_v3,
+								name: '未开工'
+							}
+						]
+					}]
+				}
+				chart.setOption(chartOption);
+			}
+		</script>
+		<script>
+			mui.init({
+				swipeBack: true //启用右滑关闭功能
+			});
+			(function($) {
+				$('#scroll').scroll({
+					indicators: true //是否显示滚动条
+				});
+				var segmentedControl = document.getElementById('segmentedControl');
+				$('.mui-input-group').on('change', 'input', function() {
+					if(this.checked) {
+						var styleEl = document.querySelector('input[name="style"]:checked');
+						var colorEl = document.querySelector('input[name="color"]:checked');
+						if(styleEl && colorEl) {
+							var style = styleEl.value;
+							var color = colorEl.value;
+							segmentedControl.className = 'mui-segmented-control' + (style ? (' mui-segmented-control-' + style) : '') + ' mui-segmented-control-' + color;
+						}
+					}
+				});
+			})(mui);
+		</script>
+		<!--时间设置-->
+		<script>
+			(function($) {
+				$.init();
+				var result = $('#demo')[0];
+				var btns = $('.btn');
+				btns.each(function(i, btn) {
+					btn.addEventListener('tap', function() {
+						var _self = this;
+						if(_self.picker) {
+							_self.picker.show(function(rs) {
+								result.innerText = rs.text;
+								_self.picker.dispose();
+								_self.picker = null;
+							});
+						} else {
+							var optionsJson = this.getAttribute('data-options') || '{}';
+							var options = JSON.parse(optionsJson);
+							var id = this.getAttribute('id');
+							_self.picker = new $.DtPicker(options);
+							_self.picker.show(function(rs) {
+								result.innerText = rs.text;
+								_self.picker.dispose();
+								_self.picker = null;
+							});
+						}
+
+					}, false);
+				});
+			})(mui);
+
+	//		滑动点击删除
+			(function($) {
+				//第一个demo，拖拽后显示操作图标，点击操作图标删除元素；
+				$('#OA_task_1').on('tap', '.mui-btn', function(event) {
+					var elem = this;
+					var li = elem.parentNode.parentNode;
+					mui.confirm('确认删除该条记录？', 'Hello MUI', btnArray, function(e) {
+						if(e.index == 0) {
+							li.parentNode.removeChild(li);
+						} else {
+							setTimeout(function() {
+								$.swipeoutClose(li);
+							}, 0);
+						}
+					});
+				});
+				var btnArray = ['确认', '取消'];
+			})(mui);
+
+			//页面初始化
+			mui.ready(function() {
+				initSelect("arrangementId","/android/arrangement/listAll");
+				initSelect("conductCategoryId","/android/conductCategory/listAll");
+				initSelect("projectPropertyId","/android/projectProperty/listAll");
+				getData();
+				initChartOne();
+				initChartTwo();
+				initChartThree();
+				reportForms();
+				downloadList();
+			})
+			
+			//通用的加载下拉框的用法
+			function initSelect(id, urlStr) {
+				var option = '<option value="">全部</option>';
+				//alert("编号："+id+"地址："+urlStr)
+				mui.ajax(commonUrl+urlStr, {
+					dataType: 'json', //服务器返回json格式数据
+					async: false,
+					type: 'post', //HTTP请求类型
+					success: function(data) {
+						for(var i = 0; i < data.data.length; i++) {
+							option += '<option value="' + data.data[i].id + '">' + data.data[i].name + '</option>';
+						}
+						$("#" + id).html(""); //加载之前清除select
+						$("#" + id).html(option); //添加option
+					},
+					error: function(xhr, type, errorThrown) {
+						//异常处理；
+						console.log(type);
+					}
+				});
+			}
+//  获取权限
+		function  getRoleIdByUserName(token){
+				mui.ajax(commonUrl+'/android/role/listByUsername;jsessionid='+token,{
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					async:false, 
+				     success: function(data) {
+						if(data.code=='1'){
+							sessionStorage.setItem("roleId",data.data[0].id);
+						}
+					}
+				});
+			}
+//  页面初始化加载报表
+		function reportForms(){
+			var token = sessionStorage.getItem('token');
+			getRoleIdByUserName(token);
+			mui.ajax(commonUrl+'/android/excel/excelFileList;jsessionid='+token,{
+//					dataType:'json',//服务器返回json格式数据
+					type:'post',//HTTP请求类型
+					timeout:10000,//超时时间设置为10秒；
+					success:function(data){
+						//服务器返回响应，根据响应结果，分析是否登录成功；
+						if(data.code==1){
+							for(var i=0;i<data.data.length;i++){
+								var report_forms = $(".report_forms").first().clone();
+								$("#OA_task_1").append(report_forms);
+								report_forms.show();
+								report_forms.find(".downloadList").attr("id","downloadList_"+(i+1));
+								report_forms.find(".list_one").html(i+1);
+								report_forms.find(".list_two").html(data.data[i].filename);
+								if(i==0||i==1||i==2){
+									report_forms.find(".roleControl").remove();
+								}
+							}
+							if(sessionStorage.getItem('roleId')==1||sessionStorage.getItem('roleId')==11){
+								//显示删除按钮
+							}else{
+								
+								$(".roleControl").remove();
+							}
+						}else{
+							mui.alert("数据加载失败");
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						//异常处理；
+						console.log(type);
+					}
+				});
+		}
+//  列表下载
+		function downloadList(){
+			mui("#OA_task_1").on('tap', '.downloadList', function() {
+			//获取id
+			var id = this.getAttribute("id");
+			if(id=="downloadList_1"||id=="downloadList_2"||id=="downloadList_3"){
+				window.location.href=commonUrl+"/excelSecAnother?month=04&year=2018&investmentType=monthinvestment_real";
+			}else if((id=="downloadList_4")){
+				window.location.href=commonUrl+"/excelThree?yearMonth=2018-04&year=2018&investmentType=monthinvestment_real";
+			}
+		})
+		}
+
+//	报表查询
+		document.getElementById("btn_search").addEventListener('tap',function(){
+			var projectPropertyId=$("#projectPropertyId option:selected");
+			alert(projectPropertyId.text());
+			var conductCategoryId=$("#conductCategoryId option:selected");
+			alert(conductCategoryId.text());
+			var arrangementId=$("#arrangementId option:selected");
+			alert(arrangementId.text());
+//			mui.ajax('http://server-name/login.php',{
+//			data:{
+//				condition.projectPropertyId:projectPropertyId.text(),
+//				condition.conductCategoryId:conductCategoryId.text(),
+//				condition.arrangementId:arrangementId.text()
+//			},
+//			type:'post',//HTTP请求类型
+//			timeout:10000,//超时时间设置为10秒；
+//			success:function(data){
+//				//服务器返回响应，根据响应结果，分析是否成功；
+//				
+//			},
+//			error:function(xhr,type,errorThrown){
+//				//异常处理；
+//				console.log(type);
+//			}
+//		});
+		})
+		</script>
+	</body>
+
+</html>
