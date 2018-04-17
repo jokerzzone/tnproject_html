@@ -162,34 +162,34 @@
 							//getRoleIdByUserName(data.token);
 							
 			//     http://localhost:8080/android/time/get?time=
-							mui.ajax(commonUrl+'/android/time/get',{
-//							data:{
-//								time:''
+//							mui.ajax(commonUrl+'/android/time/get',{
+////							data:{
+////								time:''
+////							},
+//							type:'post',//HTTP请求类型
+//							timeout:10000,//超时时间设置为10秒；
+//							success:function(data){
+//								//服务器返回响应，根据响应结果，分析是否登录成功；
+//								console.log(data);
 //							},
-							type:'post',//HTTP请求类型
-							timeout:10000,//超时时间设置为10秒；
-							success:function(data){
-								//服务器返回响应，根据响应结果，分析是否登录成功；
-								console.log(data);
-							},
-							error:function(xhr,type,errorThrown){
-								//异常处理；
-								console.log(type);
-							}
-						});
+//							error:function(xhr,type,errorThrown){
+//								//异常处理；
+//								console.log(type);
+//							}
+//						});
 							
 							
-//							var webview = mui.openWindow({
-//							    url:'main.html',
-//							    id:"index",
-//							    extras:{
-//									name:'mui'  //扩展参数
-//								},
-//							    createNew:false,//是否重复创建同样id的webview，默认为false:不重复创建，直接显示
-//							    show:{
-//							      autoShow:true,//页面loaded事件发生后自动显示，默认为true
-//							    }
-//							});
+							var webview = mui.openWindow({
+							    url:'main.html',
+							    id:"index",
+							    extras:{
+									name:'mui'  //扩展参数
+								},
+							    createNew:false,//是否重复创建同样id的webview，默认为false:不重复创建，直接显示
+							    show:{
+							      autoShow:true,//页面loaded事件发生后自动显示，默认为true
+							    }
+							});
 							
 						}else{
 							mui.alert('用户名/密码不正确', function() {});
