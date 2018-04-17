@@ -7,13 +7,30 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<link href="css/mui.min.css" rel="stylesheet" />
 		<style>
-			.mui-input-row label {
-				font-size: 14px;
+			.mui-input-row {
+				position: relative;
 			}
-			input{
+			.mui-content>.mui-table-view:first-child {
+				margin-top: 0;
+			}
+			.mui-input-row label {
+				width: 85px;
+				font-size: 14px;
+				padding:11px 0;
+			}
+			.mui-input-row input{
+				width: 100%!important;
 				padding-left: 5px!important;
 				border-bottom:1px solid #ddd!important;
 				font-size: 12px;
+				position: absolute;
+				padding-right: 90px;
+			}
+			.mui-table-view:before {
+				height: 0;
+			}
+			.mui-table-view-cell:after {
+				height: 0;
 			}
 		</style>
 	</head>
@@ -26,31 +43,31 @@
 		<div class="mui-content">
 			<ul class="mui-table-view">
 				 <li class="mui-table-view-cell mui-input-row mui-pull-left mui-col-xs-12">
-				 	<label>子手续名称</label>
+				 	<label class="label">子手续名称</label>
 					<input class="procedures_name" type="text" value="">
 				 </li>
 		         <li class="mui-table-view-cell mui-input-row mui-pull-left mui-col-xs-12">
-				 	<label>办理状态</label>
+				 	<label class="label">办理状态</label>
 					<input class="procedures_yearFinancing" type="text" value="">
 				 </li>
 				 <li class="mui-table-view-cell mui-input-row mui-pull-left mui-col-xs-12">
-				 	<label>受理单位</label>
+				 	<label class="label">受理单位</label>
 					<input class="procedures_yearFinancing" type="text" value="">
 				 </li>
 				 <li class="mui-table-view-cell mui-input-row mui-pull-left mui-col-xs-12">
-				 	<label>受理时间</label>
+				 	<label class="label">受理时间</label>
 					<input class="procedures_yearFinancing" type="text" value="">
 				 </li>
 				 <li class="mui-table-view-cell mui-input-row mui-pull-left mui-col-xs-12">
-				 	<label>办结事件</label>
+				 	<label class="label">办结事件</label>
 					<input class="procedures_yearFinancing" type="text" value="">
 				 </li>
 				 <li class="mui-table-view-cell mui-input-row mui-pull-left mui-col-xs-12">
-				 	<label>文书号</label>
+				 	<label class="label">文书号</label>
 					<input class="procedures_yearFinancing" type="text" value="">
 				 </li>
 				 <li class="mui-table-view-cell mui-input-row mui-pull-left mui-col-xs-12">
-				 	<label>备注</label>
+				 	<label class="label">备注</label>
 					<input class="procedures_yearFinancing" type="text" value="">
 				 </li>
 			</ul>

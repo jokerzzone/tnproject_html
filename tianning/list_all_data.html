@@ -6,86 +6,8 @@
 		<title>详情信息</title>
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/list_all_data.css" />
 		<link rel="stylesheet" type="text/css" href="css/mui.picker.min.css" />
-	<style>
-		.mui-table-view-cell.mui-collapse .mui-collapse-content{
-			padding: 0;
-		}
-		.mui-table-view-cell.mui-collapse .mui-table-view .mui-table-view-cell:after {
-			height: 0;
-		}
-		.mui-table-view-cell.mui-collapse .mui-table-view {
-			margin-left: 15px;
-			margin-top: 0;
-			margin-bottom: 10px;
-		}
-		.mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-body {
-			width: 100%;
-			height: 50px;
-			font-size: 14px;
-			display: block;
-			line-height: 50px;
-		}
-		.mui-table-view-cell>a:not(.mui-btn){
-			text-align: left;
-		}
-		.mui-table-view-cell.mui-collapse .mui-table-view {
-			margin: 0;
-		}
-		.mui-table-view-cell.mui-collapse .mui-table-view .mui-table-view-cell {
-			padding: 0;
-		}
-		.mui-input-row {
-			clear: none;
-		}
-		
-		.mui-input-row input {
-			height: 50px;
-		}
-		.mui-input-row input[type="text"],
-		.mui-input-row textarea {
-			border-radius: 0;
-			font-size: 12px;
-			padding-left: 5px!important;
-			float: left;
-		}
-		.mui-input-row:nth-child(even){
-			background-color: #F0F0F0;
-		}
-		.mui-input-row:nth-child(odd){
-			/*background-color: #eee;*/
-		}
-		.mui-card .mui-table-view .mui-table-view-cell:first-child, .mui-card .mui-table-view .mui-table-view-divider:first-child {
-			border-radius: 0;
-		}
-		.mui-input-row .mui-btn{
-			width: 120px!important;
-			margin: 0 auto;
-			float: none;
-			background-color: #4BAFFA;
-			border:0;
-		}
-		#startTime,
-		#endTime {
-			margin: 0;
-			background-color: #fff;
-		}
-		
-		.label {
-			width: 85px!important;
-			height: 50px;
-			line-height: 2.1!important;
-			padding-right: 0!important;
-			border-right: 1px solid #EEE;
-		}
-		.label_checkbox {
-			width: 80%;
-			line-height: 2.1!important;
-		}
-		.investment {
-			border-bottom:1px solid #ccc!important;
-		}
-	</style>
 	</head>
 
 	<body>
@@ -235,7 +157,7 @@
 					                <div class="mui-media-body">
 					                	<div id="procedures">
 						                	<div class="procedures_list mui-input-row mui-pull-left mui-col-xs-12 mui-table-view-cell" style="display: none;">
-												<span id="procedures_listName" class="procedures_listName" style="width:200px;display: inline-block; line-height: 40px; padding-left: 15px;">力顶手续</span>
+												<span id="procedures_listName" class="procedures_listName" style="width:100px;display: inline-block; line-height: 40px; padding-left: 15px;">力顶手续</span>
 												<label class="" style="width: auto; float: right; line-height: 20px;"><input type="checkbox" />是否已办妥</label>
 											</div>
 										</div>
@@ -267,33 +189,33 @@
 										</div>
 										<div class="mui-input-row mui-col-xs-12">
 											<label class="label">竣工情况</label>
-											<label><input class="invest_finishStatus" type="checkbox">竣工</label>
+											<label class="label_checkbox"><input class="invest_finishStatus" type="checkbox">竣工</label>
 										</div>
 										<div class="mui-input-row mui-col-xs-12">
 											<label class="label">竣工时间</label>
 											<button id='endTime' data-options='{"type":"month"}' class="invest_finishTime btn mui-btn mui-btn-block">2017-3</button>
 										</div>
 										<div class="mui-input-row mui-col-xs-12">
-											<label class="label">03月投资（预计）</label>
+											<label class="label label_invest">03月投资（预计）</label>
 											<input class="investment invest_monthInvestment" type="text" value="">
 										</div>
 										<div class="mui-input-row mui-col-xs-12">
-											<label class="label">至3月累计投资（预计）</label>
+											<label class="label label_invest">至3月累计投资（预计）</label>
 											<input class="investment essential_monthInvest" type="text" value="0万元">
 										</div>
 										<div class="mui-input-row mui-col-xs-12">
 											<label class="label">时序进度</label>
 											<input class="investment invest_rate" type="text" value="0.0%">
 										</div>
-										<div class="mui-input-row mui-col-xs-12">
+										<div class="mui-input-row mui-col-xs-12 invest_textarea">
 											<label class="label">形象进度</label>
 											<textarea class="investment invest_monthFigureProgress" name="" rows="" cols="" ></textarea>
 										</div>
-										<div class="mui-input-row mui-col-xs-12">
+										<div class="mui-input-row mui-col-xs-12 invest_textarea">
 											<label class="label">对策措施</label>
 											<textarea class="investment invest_measures" name="" rows="" cols="" ></textarea>
 										</div>
-										<div class="mui-input-row mui-col-xs-12">
+										<div class="mui-input-row mui-col-xs-12 invest_textarea">
 											<label class="label">备注情况</label>
 											<textarea class="investment invest_remarks" name="" rows="" cols="" ></textarea>
 										</div>
