@@ -110,7 +110,7 @@
 	<body>
 		<div class="mui-content" style="background:none;">
 			<div class="mui-content-padded" style="text-align: center;color: #FFFFFF;">
-				<img src="images/logo.png" width="100" height="100" />
+				<img src="images/logoquan.png" width="130" height="130" />
 			</div>
 			<div class="mui-content-padded" style="text-align: center;color: #FFFFFF;">
 				<h3>天宁重点项目督查系统</h3>
@@ -160,14 +160,33 @@
 							sessionStorage.setItem("token",data.token);
 							sessionStorage.setItem('username',data.data.username);
 							//getRoleIdByUserName(data.token);
-							
-							mui.ajax(commonUrl+'/android/time/get;jsessionid='+data.token+'?time=',{
+						//  获取锁定状态
+							mui.ajax(commonUrl+'/android/role/showLock',{
+							type:'post',//HTTP请求类型
+							timeout:10000,//超时时间设置为10秒；
+							success:function(data){
+								//服务器返回响应，根据响应结果，分析是否登录成功；
+								if(data.code==1){
+//									console.log(data.data.lockStatus);
+									sessionStorage.setItem("lockStatus",data.data.lockStatus);
+								}
+							},
+							error:function(xhr,type,errorThrown){
+								//异常处理；
+								console.log(type);
+							}
+						});
+						
+						//  获取时间
+							mui.ajax(commonUrl+'/android/time/get;jsessionid='+data.token+'?time=2018-04',{
 //							data:{
 //								time:''
 //							},
 							type:'post',//HTTP请求类型
 							timeout:10000,//超时时间设置为10秒；
 							success:function(data){
+								sessionStorage.setItem('time',"2018-04");
+//								alert(sessionStorage.getItem('time'));
 								//服务器返回响应，根据响应结果，分析是否登录成功；
 								console.log("请求成功");
 							},
@@ -179,7 +198,7 @@
 							
 							
 							var webview = mui.openWindow({
-							    url:'main.html',
+							    url:'setting.html',
 							    id:"index",
 							    extras:{
 									name:'mui'  //扩展参数
@@ -189,7 +208,7 @@
 							      autoShow:true,//页面loaded事件发生后自动显示，默认为true
 							    }
 							});
-							
+//							
 						}else{
 							mui.alert('用户名/密码不正确', function() {});
 						}

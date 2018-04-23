@@ -3,10 +3,10 @@
 	"id": "H58D0CB20",/*应用的标识，创建应用时自动生成，勿手动修改*/
 	"name": "tianning",/*应用名称，程序桌面图标名称*/
 	"version": {
-		"name": "1.0.0",/*应用版本名称*/
+		"name": "2.0.0",/*应用版本名称*/
 		"code": "83"
 	},
-	"description": "",/*应用描述信息*/
+	"description": "天宁app更新",/*应用描述信息*/
 	"icons": {
 		"72": "icon.png"
 	},
@@ -137,7 +137,9 @@
 				"refer": [
 					"map.html",
 					"set.html",
-					"reports.html"
+					"reports.html",
+					"echarts.html",
+					"setting.html"
 				],
 				"priority": 0
 			},
@@ -175,14 +177,16 @@
 				"resources": [],
 				"refer": [
 					"list_all_data.html",
-					"map.html"
+					"map.html",
+					"search.html"
 				],
 				"priority": 0
 			},
 			"list_all_data.html": {
 				"resources": [],
 				"refer": [
-					"list_procedure.html"
+					"list_procedure.html",
+					"fieldStuation.html"
 				],
 				"priority": 0
 			}

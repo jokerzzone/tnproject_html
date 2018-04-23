@@ -36,6 +36,7 @@
 				border-radius: 5px;
 				margin-top: 3px;
 				opacity: 0.8;
+				margin-left: 5px;
 			}
 		</style>
 		<script src="js/mui.min.js"></script>
@@ -47,7 +48,13 @@
 		</header>
 		<div class="mui-content" style="margin-top:-10px;">
 			<div class="mui-content-padded">
-				<div style="float:right;position: absolute;z-index: 99999;">
+				<div style="float:right;position: absolute;z-index: 99999;right:10px;">
+					<div>
+						<img id="ditu" style="border: 2px solid red;" class="mui-media-object" src="images/distmap.png">
+					</div>
+					<div>
+						<img id="yingxiang" class="mui-media-object" src="images/shadow.jpg">
+					</div>
 					<div class="tool" id="ceijuTool">
 						<img id="ceiju" class="mui-media-object" src="images/ceiju.png" />
 					</div>
@@ -56,14 +63,6 @@
 					</div>
 					<div class="tool" id="qingchuTool">
 						<img id="qingchu" class="mui-media-object" src="images/qingchu.png" />
-					</div>
-				</div>
-				<div style="float:right;position: absolute;z-index: 99999;right:10px;">
-					<div>
-						<img id="ditu" style="border: 1px solid red;" class="mui-media-object" src="images/distmap.png">
-					</div>
-					<div>
-						<img id="yingxiang" class="mui-media-object" src="images/shadow.jpg">
 					</div>
 				</div>
 				<div id="map" style="position: absolute;right:0;left:0;z-index: 100 !important;width:100%;height:100%;">
@@ -78,7 +77,9 @@
 		<script type="text/javascript" src="js/url.js" ></script>
 		<script src="js/map/map.js"></script>
 		<script>
-
+			var isTrue = false;
+			var distance_ = 0;
+			var mapHandler;
 //			
 			//定位
 			function attachViewPoiToEarth(x,y) {
@@ -93,15 +94,17 @@
 			
 			//测距
 			document.getElementById('ceiju').addEventListener('tap', function() {
-				document.getElementById('ceijuTool').style.border = "1px solid #FF7352";
+				
+				document.getElementById('ceijuTool').style.border = "2px solid red";
 				document.getElementById('ceimianTool').style.border = "0";
 				document.getElementById('qingchuTool').style.border = "0";
 				measureline();
+				isTrue = true;
 			});
 
 			//测面
 			document.getElementById('ceimian').addEventListener('tap', function() {
-				document.getElementById('ceimianTool').style.border = "1px solid #FF7352";
+				document.getElementById('ceimianTool').style.border = "2px solid red";
 				document.getElementById('ceijuTool').style.border = "0";
 				document.getElementById('qingchuTool').style.border = "0";
 				measureploygon();
@@ -109,7 +112,7 @@
 
 			//清除
 			document.getElementById('qingchu').addEventListener('tap', function() {
-				document.getElementById('qingchuTool').style.border = "1px solid #FF7352";
+				document.getElementById('qingchuTool').style.border = "2px solid red";
 				document.getElementById('ceijuTool').style.border = "0";
 				document.getElementById('ceimianTool').style.border = "0";
 				clear();
@@ -129,7 +132,7 @@
 			function showDitu() {
 				yingXiangLayer.hide();
 				baseLayer.show();
-				document.getElementById('ditu').style.border = "1px solid red";
+				document.getElementById('ditu').style.border = "2px solid red";
 				document.getElementById('yingxiang').style.border = "0";
 			}
 
@@ -137,7 +140,7 @@
 			function showYingXiang() {
 				baseLayer.hide();
 				yingXiangLayer.show();
-				document.getElementById('yingxiang').style.border = "1px solid red";
+				document.getElementById('yingxiang').style.border = "2px solid red";
 				document.getElementById('ditu').style.border = "0";
 			}
 
@@ -145,11 +148,19 @@
 			function measureline() {
 				MyMap.graphics.clear();
 				myhandler = dojo.connect(mytoolbar, "onDrawEnd", doMeasure);
+				//myhandler = dojo.connect(mytoolbar, "onDrawComplete", aa);
 				mytoolbar.activate(esri.toolbars.Draw.POLYLINE);
+				mapHandler = dojo.connect(MyMap, "onClick", function (event) {
+					measureRange(event)
+       			});
 			}
+			
+			
+			
 
 			//测面
 			function measureploygon() {
+				
 				MyMap.graphics.clear();
 				myhandler = dojo.connect(mytoolbar, "onDrawEnd", doMeasure);
 				mytoolbar.activate(esri.toolbars.Draw.POLYGON);
@@ -159,10 +170,67 @@
 			function clear() {
 				navToolbar.activate(esri.toolbars.Navigation.PAN);
 				MyMap.graphics.clear();
-				mygraphicsLayer.clear();
 				MyMap.infoWindow.hide();
+				points = [];
+				distance_ = 0;
+				dojo.disconnect(mapHandler);
 			}
-
+			
+			
+			function measureRange(arg){
+				var arr = [];
+		   		var lonlat = mercator2lonlat(arg.mapPoint.x,arg.mapPoint.y);
+		   		//画点
+		   		var point = esri.geometry.Point(lonlat.x,lonlat.y,MyMap.SpatialReference);
+		   		arr.push(lonlat.x);
+		   		arr.push(lonlat.y)
+		   		points.push(arr);
+		   		var singlePathPolyline = new esri.geometry.Polyline(points);
+		   		if(points.length>1){
+		   			var length = getLength(singlePathPolyline);
+		   			doMeasure_(singlePathPolyline,length[0].toFixed(2),point);
+		   			//将length显示到地图上面
+		   		}
+			}
+			
+			function doMeasure_(geometry,length,point) {
+				mytoolbar.deactivate();
+				dojo.disconnect(myhandler);
+				//更加类型设置显示样式  
+				measuregeometry = geometry;
+				mytoolbar.deactivate();
+				switch(geometry.type) {
+					case "polyline":
+						var symbol = new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color([128,230,128]), 3);
+						break;
+					case "polygon":
+						var symbol = new esri.symbol.SimpleFillSymbol(esri.symbol.SimpleFillSymbol.STYLE_SOLID, new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color([252,143,115]), 3), new dojo.Color([252,143,115,0.25]));
+						break;
+				}
+				//设置样式  
+				var graphic = new esri.Graphic(geometry,symbol);
+				//var symbolm = new esri.symbol.TextSymbol(,"20pt",new dojo.Color([205,0,0]));
+				var symbolm;
+				require([
+				  "esri/symbols/TextSymbol", "esri/symbols/Font"
+				], function(TextSymbol,Font,Color) {
+				  symbolm = new TextSymbol((length-distance_).toFixed(2)+" Km");
+				  distance_ = length;
+				  var font  = new Font();
+				  font.setSize("20pt");
+				  font.setWeight(Font.WEIGHT_BOLD);
+				  symbolm.setFont(font);
+				  symbolm.setColor(new dojo.Color([205,0,0]));
+				});
+		        var graphicm = new esri.Graphic(point,symbolm);
+				//清除上一次的画图内容  
+				//MyMap.graphics.clear();
+				MyMap.graphics.add(graphic);
+				MyMap.graphics.add(graphicm);
+			}
+			
+			
+			//点击事件
 			function doMeasure(geometry) {
 				mytoolbar.deactivate();
 				dojo.disconnect(myhandler);
@@ -178,7 +246,7 @@
 						break;
 				}
 				//设置样式  
-				var graphic = new esri.Graphic(geometry, symbol);
+				var graphic = new esri.Graphic(geometry,symbol);
 				//清除上一次的画图内容  
 				MyMap.graphics.clear();
 				MyMap.graphics.add(graphic);
@@ -224,6 +292,8 @@
 				MyMap.infoWindow.setContent(" 测 量 长 度 ： <strong>" + (parseInt(String(result.lengths[0])) / 1000).toFixed(2) + "KM</strong>");
 				MyMap.infoWindow.show(CurPos);
 			}
+			
+		
 
 			//显示测量面积  
 			function outputAreaAndLength(result) {
@@ -243,7 +313,8 @@
 				var projectId = '' ;
 				if(getQueryString('id')!=null||getQueryString('id')!=''||typeof(getQueryString('id'))!="undefined"){
 					projectId = getQueryString('id');
-					var url = mapUrl+"/xbproject/projectreport/detailwithmap?id="+projectId+"&year=2018";
+					var token = sessionStorage.getItem('token');
+					var url = commonUrl+"/projectreport/detailwithmap?id="+projectId+"&year=2018&isApp=1"+";jsessionid="+token;
 					ajaxRequst_get(url,showAllMapDataAtMap);
 				}
 				
@@ -376,7 +447,7 @@
 				} else {
 					newpa = url;
 				}
-				newpa = newpa + "t=" + new Date().getTime();
+				//newpa = newpa + "t=" + new Date().getTime();
 				newpa = encodeURI(newpa);
 				xmlhttp.open("GET", newpa, true);
 				xmlhttp.send();

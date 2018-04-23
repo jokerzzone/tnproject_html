@@ -4,9 +4,12 @@ var MyMap,mytoolbar,geometryService,mygraphicsLayer;
 //定义图层
 var baseLayer,yingXiangLayer,textLayer;
 
+
 //加载自定义模块
 var navToolbar;
 
+//存放点的数组
+var points = [];
    
 
 
@@ -32,6 +35,9 @@ dojo.require("dojo.json");
 dojo.require("esri.dijit.InfoWindowLite");//加载info框
 dojo.require("esri.dijit.OverviewMap");
 
+dojo.require("esri.geometry.geodesicUtils");
+
+
 
 
 //---------------------------------//
@@ -48,6 +54,12 @@ function initMap() {
             var overviewMap = new esri.dijit.OverviewMap({ map: MyMap, attachTo: "bottom-right" });
             overviewMap.startup();
         });
+        
+        dojo.connect(MyMap, "click", function (MyMap) {
+           
+        });
+        
+        
         
         baseLayer = new esri.layers.ArcGISTiledMapServiceLayer(basemap); //dMapServiceLayer对象，解析arcgis的瓦片服务图层；MapConfig.imgMapUrl是layer对象的参数，请求发布地图服务的url，用来获取地图服务的数据来渲染
         MyMap.addLayer(baseLayer);	
@@ -73,6 +85,7 @@ function initMap() {
 		navToolbar = new esri.toolbars.Navigation(MyMap);
 		
 		myevent();  //为对象注册事件
+		
 }
 
 //用dojo的addOnLoad方法初始化地图
@@ -109,14 +122,21 @@ function addToMap(evt) {
   
 
 }
+
+//得到距离
+	function getLength (polyline) {
+		var length = 0;
+		require(["esri/geometry/geodesicUtils"], function(geodesicUtils) { 
+			 length =geodesicUtils.geodesicLengths([polyline], esri.Units.KILOMETERS); 
+		});
+		return length;
+    } 
+
 //注册事件
 function myevent() {
     //为指定的元素添加事件
-
     //dojo.connect(MyMap, 'onLoad', createToolbar); //地图加载后调用createToolbar函数
 	   mygraphicsLayer.on("click", function (arg) {
-		   //console.log(arg.graphic);
-		  // showAtMap(arg.graphic);
 		  ///查询信息窗口
 	       MyMap.infoWindow.resize(275, 225);        //调整信息框的大小
 	       //console.log(arg.graphic.attributes)
@@ -124,7 +144,7 @@ function myevent() {
 	       MyMap.infoWindow.setContent(
 	    		   						'<span>建设地点：'+arg.graphic.attributes.adr+'</span></br>'
 	    		   						+'<span>实施主体：'+arg.graphic.attributes.sszt+'</span></br>'
-	    		   						+'<span>项目层次：'+arg.graphic.attributes.xmcc+'</span></br></br>'	
+	    		   						+'<span>项目层次：'+arg.graphic.attributes.xmcc+'</span></br>'	
 	    		   						+'<span>总投资：'+arg.graphic.attributes.tz+'万元</span></br>'
 	    		   						+'<span>当月投资：'+arg.graphic.attributes.dytz+'万元</span></br>'
 	    		   						+'<span>当前累计投资：'+arg.graphic.attributes.dqljtz+'万元</span></br>'
@@ -134,8 +154,27 @@ function myevent() {
 	    		   						);
 	       MyMap.infoWindow.show(arg.mapPoint, MyMap.getInfoWindowAnchor(arg.graphic.geometry));   //根据定位点的坐标，把特性展现出来
 	   });
+	   
+	   
+	   //map的点击事件
+	   	
 
 }
+
+
+
+
+
+function mercator2lonlat(param_x,param_y){
+	var lonlat={x:0,y:0};
+	var x = param_x/20037508.34*180;
+	var y = param_y/20037508.34*180;
+	y= 180/Math.PI*(2*Math.atan(Math.exp(y*Math.PI/180))-Math.PI/2);
+	lonlat.x = x;
+	lonlat.y = y;
+	return lonlat;
+}
+
 
 
 //
@@ -150,7 +189,6 @@ function tongjichose(graphic){
 function drawpolygon(){
 	  mygraphicsLayer.clear();
 	  mytoolbar.activate(esri.toolbars.Draw.POLYGON);
-	  
 }
 
 

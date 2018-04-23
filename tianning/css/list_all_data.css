@@ -56,17 +56,21 @@
 	border-radius: 0;
 }
 .mui-input-row .mui-btn{
-	width: 120px!important;
+	width: 100px!important;
 	margin: 0 auto;
 	float: none;
 	background-color: #4BAFFA;
 	border:0;
-	line-height: 1.7;
+	line-height: 0.8;
+	margin-top: 10px;
+	margin-bottom: 10px;
 }
 #startTime,
 #endTime {
-	margin: 0;
-	background-color: #f2fcff;
+	margin: 5px;
+	margin-left: 90px;
+	background-color: #fff;
+	border: 1px solid #ccc;
 }
 
 .label {
@@ -82,8 +86,8 @@
 .label_checkbox input{
 	position: static;
 }
-.investment {
-	border-bottom:1px solid #ccc!important;
+.investmentList .investment {
+	border-bottom:1px solid #ccc;
 }
 #procedures .procedures_list label input {
 	position: static;
@@ -96,4 +100,13 @@
 }
 .invest_textarea label {
 	height: 80px;
+}
+.listNumber {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	text-align: center;
+	background: #23C6C8;
+	border-radius: 2px;
+	color:#fff;
 }

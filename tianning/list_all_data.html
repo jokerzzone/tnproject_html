@@ -14,14 +14,14 @@
 		<!--头部-->
 		<header class="mui-bar mui-bar-nav" style="background: #4BAFFA;">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color:#fff;"></a>
-			<h1 class="mui-title" style="color:#fff">详情信息</h1>
+			<h1 id="titleName" class="mui-title" style="color:#fff">详情信息</h1>
 		</header>
 		<div class="mui-content">
 			<div class="mui-card" style="margin: 0;">
 				<ul class="mui-table-view ul_all">
 					<li class="mui-table-view-cell mui-collapse">
 						<a class="mui-navigate-right" href="#">
-							<span class="mui-col-xs-5" style="display: inline-block;">1</span>
+							<span class="mui-col-xs-5" style="display: inline-block;"><span class="listNumber">1</span></span>
 							<span class="mui-col-xs-7" style="display: inline-block;">基本信息</span>
 						</a>
 						<div class="mui-collapse-content">
@@ -32,9 +32,10 @@
 											<label class="label">名称</label>
 											<input class="essential_name" type="text" value="">
 										</div>
-										<div class="mui-input-row mui-col-xs-12">
-											<label class="label">内容</label>
-											<input class="essential_content" type="text" value="">
+										<div class="mui-input-row mui-col-xs-12" style="height: 70px;">
+											<label class="label" style="height: 70px;">内容</label>
+											<textarea class="essential_content" name="" rows="" cols="" style="background-color: #F0F0F0; height: auto;"></textarea>
+
 										</div>
 										<div class="mui-input-row mui-col-xs-12">
 											<label class="label">实施主体</label>
@@ -70,9 +71,9 @@
 										</div>
 										<div class="mui-input-row mui-col-xs-12">
 											<label class="label">目标形象</label>
-											<input class="essential_yearTarget" type="text" value="">
+											<textarea class="essential_yearTarget" name="" rows="" cols=""></textarea>
 										</div>
-										<div class="mui-input-row mui-col-xs-12">
+										<div class="mui-input-row mui-col-xs-12" style="display: none;">
 											<button type="button" class="btn mui-btn mui-btn-primary mui-btn-block">保存</button>
 										</div>
 					                </div>
@@ -82,7 +83,7 @@
 					</li>
 					<li class="mui-table-view-cell mui-collapse">
 						<a class="mui-navigate-right" href="#">
-							<span class="mui-col-xs-5" style="display: inline-block;">2</span>
+							<span class="mui-col-xs-5" style="display: inline-block;"><span class="listNumber">2</span></span>
 							<span class="mui-col-xs-7" style="display: inline-block;">责任人</span>
 						</a>
 						<div class="mui-collapse-content">
@@ -105,7 +106,7 @@
 											<label class="label">挂钩领导</label>
 											<input class="essential_hookLeaderName" type="text" value="">
 										</div>
-										<div class="mui-input-row mui-col-xs-12">
+										<div class="mui-input-row mui-col-xs-12" style="display: none;">
 											<button type="button" class="btn mui-btn mui-btn-primary mui-btn-block">保存</button>
 										</div>
 					                </div>
@@ -115,30 +116,30 @@
 					</li>
 					<li class="mui-table-view-cell mui-collapse">
 						<a class="mui-navigate-right" href="#">
-							<span class="mui-col-xs-5" style="display: inline-block;">3</span>
+							<span class="mui-col-xs-5" style="display: inline-block;"><span class="listNumber">3</span></span>
 							<span class="mui-col-xs-7" style="display: inline-block;">投资金额</span>
 						</a>
 						<div class="mui-collapse-content">
 							<ul class="mui-table-view">
 					            <li class="mui-table-view-cell mui-media">
-					                <div class="mui-media-body">
-					                	<div class="mui-input-row mui-col-xs-12">
+					                <div class="mui-media-body investText">
+					                	<div class="investmentList mui-input-row mui-col-xs-12">
 											<label class="label">总投资</label>
 											<input class="investment essential_totalInvestment" type="text" value="">
 										</div>
-										<div class="mui-input-row mui-col-xs-12">
+										<div class="investmentList mui-input-row mui-col-xs-12">
 											<label class="label">国资比例</label>
 											<input class="investment essential_yearFinancing" type="text" value="">
 										</div>
-										<div class="mui-input-row mui-col-xs-12">
+										<div class="investmentList mui-input-row mui-col-xs-12">
 											<label class="label">已投资</label>
 											<input class="investment essential_finishInvestment" type="text" value="">
 										</div>
-										<div class="mui-input-row mui-col-xs-12">
+										<div class="investmentList mui-input-row mui-col-xs-12">
 											<label class="label">年度计划</label>
 											<input class="investment essential_planInvestment" type="text" value="">
 										</div>
-										<div class="mui-input-row mui-col-xs-12">
+										<div id="investSave" class="investmentList mui-input-row mui-col-xs-12" style="display: none;">
 											<button type="button" class="btn mui-btn mui-btn-primary mui-btn-block">保存</button>
 										</div>
 					                </div>
@@ -148,20 +149,20 @@
 					</li>
 					<li class="mui-table-view-cell mui-collapse">
 						<a class="mui-navigate-right" href="#">
-							<span class="mui-col-xs-5" style="display: inline-block;">4</span>
+							<span class="mui-col-xs-5" style="display: inline-block;"><span class="listNumber">4</span></span>
 							<span class="mui-col-xs-7" style="display: inline-block;">前期手续</span>
 						</a>
 						<div class="mui-collapse-content">
 							<ul class="mui-table-view">
 					            <li class="mui-table-view-cell mui-media">
-					                <div class="mui-media-body">
+					                <div class="mui-media-body proceduresText">
 					                	<div id="procedures">
 						                	<div class="procedures_list mui-input-row mui-pull-left mui-col-xs-12 mui-table-view-cell" style="display: none;">
 												<span id="procedures_listName" class="procedures_listName" style="width:100px;display: inline-block; line-height: 40px; padding-left: 15px;">力顶手续</span>
-												<label class="" style="width: auto; float: right; line-height: 20px;"><input type="checkbox" />是否已办妥</label>
+												<label class="" style="width: auto; float: right; line-height: 20px;"><input type="checkbox" style="vertical-align: middle;margin-bottom: 2px;" />是否已办妥</label>
 											</div>
 										</div>
-					                	<div class="mui-input-row mui-col-xs-12">
+					                	<div id="proceduresSave" class="mui-input-row mui-col-xs-12" style="display: none;">
 											<button type="button" class="btn mui-btn mui-btn-primary mui-btn-block">保存</button>
 										</div>
 					                </div>
@@ -172,58 +173,58 @@
 					</li>
 					<li class="mui-table-view-cell mui-collapse">
 						<a class="mui-navigate-right" href="#">
-							<span class="mui-col-xs-5" style="display: inline-block;">5</span>
+							<span class="mui-col-xs-5" style="display: inline-block;"><span class="listNumber">5</span></span>
 							<span class="mui-col-xs-7" style="display: inline-block;">投资和进度</span>
 						</a>
 						<div class="mui-collapse-content">
 							<ul class="mui-table-view">
 					            <li class="mui-table-view-cell mui-media">
-					                <div class="mui-media-body">
+					                <div class="mui-media-body roteProgressText">
 					                	<div class="mui-input-row mui-col-xs-12">
 											<label class="label">开工情况</label>
-											<label class="label_checkbox"><input class="invest_startStatus" type="checkbox">开工</label>
+											<label class="label_checkbox"><input id="invest_startStatus" class="status invest_startStatus" type="checkbox" style="vertical-align: middle;margin-bottom: 2px;" >开工</label>
 										</div>
 										<div class="mui-input-row mui-col-xs-12">
 											<label class="label">开工时间</label>
-											<button id='startTime' data-options='{"type":"month"}' class="invest_startTime btn mui-btn mui-btn-block">2017-3</button>
+											<button id='startTime' data-options='{"type":"month"}' class="status invest_startTime btn mui-btn mui-btn-block">2017-3</button>
 										</div>
 										<div class="mui-input-row mui-col-xs-12">
 											<label class="label">竣工情况</label>
-											<label class="label_checkbox"><input class="invest_finishStatus" type="checkbox">竣工</label>
+											<label class="label_checkbox"><input id="invest_finishStatus" class="status invest_finishStatus" type="checkbox" style="vertical-align: middle;margin-bottom: 2px;" >竣工</label>
 										</div>
 										<div class="mui-input-row mui-col-xs-12">
 											<label class="label">竣工时间</label>
-											<button id='endTime' data-options='{"type":"month"}' class="invest_finishTime btn mui-btn mui-btn-block">2017-3</button>
+											<button id='endTime' data-options='{"type":"month"}' class="status invest_finishTime btn mui-btn mui-btn-block">2017-3</button>
 										</div>
-										<div class="mui-input-row mui-col-xs-12">
-											<label class="label label_invest">03月投资（预计）</label>
+										<div class="investmentList mui-input-row mui-col-xs-12">
+											<label class="label label_invest"><span class="month">03</span>月投资（<span class="investPlan">预计</span>）</label>
 											<input class="investment invest_monthInvestment" type="text" value="">
 										</div>
-										<div class="mui-input-row mui-col-xs-12">
-											<label class="label label_invest">至3月累计投资（预计）</label>
+										<div class="investmentList mui-input-row mui-col-xs-12">
+											<label class="label label_invest">至<span class="month">03</span>月累计投资（<span class="investPlan">预计</span>）</label>
 											<input class="investment essential_monthInvest" type="text" value="0万元">
 										</div>
-										<div class="mui-input-row mui-col-xs-12">
+										<div class="investmentList mui-input-row mui-col-xs-12">
 											<label class="label">时序进度</label>
 											<input class="investment invest_rate" type="text" value="0.0%">
 										</div>
-										<div class="mui-input-row mui-col-xs-12 invest_textarea">
+										<div class="investmentList mui-input-row mui-col-xs-12 invest_textarea">
 											<label class="label">形象进度</label>
 											<textarea class="investment invest_monthFigureProgress" name="" rows="" cols="" ></textarea>
 										</div>
-										<div class="mui-input-row mui-col-xs-12 invest_textarea">
+										<div class="investmentList mui-input-row mui-col-xs-12 invest_textarea">
 											<label class="label">对策措施</label>
 											<textarea class="investment invest_measures" name="" rows="" cols="" ></textarea>
 										</div>
-										<div class="mui-input-row mui-col-xs-12 invest_textarea">
+										<div class="investmentList mui-input-row mui-col-xs-12 invest_textarea">
 											<label class="label">备注情况</label>
 											<textarea class="investment invest_remarks" name="" rows="" cols="" ></textarea>
 										</div>
-										<div class="mui-input-row mui-col-xs-12">
+										<div class="investmentList mui-input-row mui-col-xs-12">
 											<label class="label">更新时间</label>
 											<input class="investment invest_updateTime" type="text" value="">
 										</div>
-										<div class="mui-input-row mui-col-xs-12">
+										<div id="roteProgressSave" class="mui-input-row mui-col-xs-12" style="display: none;">
 											<button type="button" class="btn mui-btn mui-btn-primary mui-btn-block">保存</button>
 										</div>
 					                </div>
@@ -232,22 +233,12 @@
 						</div>
 					</li>
 					<li class="mui-table-view-cell mui-collapse">
-						<a class="mui-navigate-right" href="#">
-							<span class="mui-col-xs-5" style="display: inline-block;">6</span>
+						<a id="fieldStuation" class="" href="#">
+							<span class="mui-col-xs-5" style="display: inline-block;"><span class="listNumber">6</span></span>
 							<span class="mui-col-xs-7" style="display: inline-block;">现场情况</span>
 						</a>
-						<div class="mui-collapse-content">
-							<ul class="mui-table-view">
-					            <li class="li_one mui-table-view-cell mui-media">
-					                <div class="mui-media-body">
-					                	<div class="mui-input-row mui-col-xs-12">
-											<button type="button" class="btn mui-btn mui-btn-primary mui-btn-block">保存</button>
-										</div>
-					                </div>
-					            </li>
-					        </ul> 
-						</div>
 					</li>
+					
 				</ul>
 			</div>
 		</div>
@@ -258,6 +249,11 @@
 		<script type="text/javascript" src="js/tool.js" ></script>
 		<script type="text/javascript">
 			mui.init();
+			var token = sessionStorage.getItem('token');
+			var year = localStorage.getItem('year');
+			var month = localStorage.getItem('month');
+			console.log(month);
+			$(".month").html(month);
 //  获取页面url的type和content
 			function getUrlParam(key){
 			    // 获取参数
@@ -270,14 +266,36 @@
 			    return result ? decodeURIComponent(result[2]) : null;
 			}
 			var projectId=getUrlParam("id");
+			var titleName=getUrlParam("titleName");
+			var lockstatus=getUrlParam("lockstatus");
+			$("#titleName").html(titleName);
 //Dom加载后页面初始化	
 		mui.ready(function(){
 			loadData();	
 			process();
 			invest();
+			textChange(".investText","input","#investSave");
+			textChange(".proceduresText","input","#proceduresSave");
+			textChange(".roteProgressText","input","#roteProgressSave");
+			textChange(".roteProgressText","textarea","#roteProgressSave");
+			textChange(".roteProgressText","button","#roteProgressSave");
 			});
+//  获取角色
+	function  getRoleIdByUserName(token){
+		mui.ajax(commonUrl+'/android/role/listByUsername;jsessionid='+token,{
+			dataType: 'json', //服务器返回json格式数据
+			type: 'post', //HTTP请求类型
+			async:false, 
+		     success: function(data) {
+				if(data.code=='1'){
+					sessionStorage.setItem("roleId",data.data[0].id);
+				}
+			}
+		});
+	}
 //  详细信息
 		function loadData(){
+			getRoleIdByUserName(token);
 			mui.ajax(commonUrl+'/android/project/listByProjectId',{
 				data:{
 					projectId:projectId
@@ -286,9 +304,9 @@
 				timeout:10000,//超时时间设置为10秒；
 				success:function(data){
 //						console.log(data);
-					//服务器返回响应，根据响应结果，分析是否登录成功；
 					if(data.code==1){
 //						基本信息
+						
 						$(".essential_name").val(data.data[0].name);
 						$(".essential_content").val(data.data[0].content);
 						$(".essential_conductSubject").val(data.data[0].conductSubject);
@@ -310,11 +328,43 @@
 						$(".essential_yearFinancing").val(data.data[0].yearFinancing+"%");
 						$(".essential_finishInvestment").val(data.data[0].finishInvestment+"万元");
 						$(".essential_planInvestment").val(data.data[0].planInvestment+"万元");
+						console.log(lockstatus);
+						if(lockstatus==1){
+							$(".investment").css("border-bottom","0");
+							$(".investment").click(function(){
+								this.readOnly=true;
+							});
+							$(".status").click(function(){
+								this.disabled=disabled;
+							});
+						}else{
+							if(sessionStorage.getItem('roleId')==1||sessionStorage.getItem('roleId')==11){
+								
+							}else{
+								$(".investment").css("border-bottom","0");
+								$(".investment").click(function(){
+								this.readOnly=true;
+							});
+								$(".status").click(function(){
+									this.disabled=disabled;
+								});
+							}
+						}
 //						投资和进度
-//						var startStatus = data.data[0].startStatus;
-//						var finishStatus = data.data[0].finishStatus;
-//						$(".invest_startStatus").val(data.data[0].startStatus);
-//						$(".invest_finishStatus").val(data.data[0].finishStatus);
+						var startStatus = data.data[0].startStatus;
+						var finishStatus = data.data[0].finishStatus;
+						var invest_startStatus=document.getElementById("invest_startStatus");
+						var invest_finishStatus=document.getElementById("invest_finishStatus");
+						if(startStatus==1){
+							invest_startStatus.checked=true;
+						}else{
+							invest_startStatus.checked=false;
+						};
+						if(finishStatus==1){
+							invest_finishStatus.checked=true;
+						}else{
+							invest_finishStatus.checked=false;
+						};
 					}
 				},
 				error:function(xhr,type,errorThrown){
@@ -332,11 +382,14 @@
 						//服务器返回响应，根据响应结果，分析是否登录成功；
 						if(data.code==1){
 							for(var i=0;i<data.data.length;i++){
-								var procedures_list = $(".procedures_list").first().clone();
-								$("#procedures").append(procedures_list);
-								procedures_list.show();
-								procedures_list.find(".procedures_listName").html(data.data[i].name);
-								procedures_list.find(".procedures_listName").attr("id",data.data[i].id);
+							var str = "";
+							str = '<div>'+
+				                	'<div class="procedures_list mui-input-row mui-pull-left mui-col-xs-12 mui-table-view-cell">'+
+										'<span id="'+data.data[i].id+'" class="procedures_listName" style="width:100px;display: inline-block; line-height: 40px; padding-left: 15px;">'+data.data[i].name+'</span>'+
+										'<label class="" style="width: auto; float: right; line-height: 20px;"><input type="checkbox" style="vertical-align: middle;margin-bottom: 2px;" />是否已办妥</label>'+
+									'</div>'+
+								'</div>';
+							$("#procedures").append(str);
 							}
 						}
 					},
@@ -365,7 +418,7 @@
 					type:'get',//HTTP请求类型
 					timeout:10000,//超时时间设置为10秒；
 					success:function(data){
-						console.log(data);
+//						console.log(data);
 						//服务器返回响应，根据响应结果，分析是否登录成功；
 						if(data.code==1){
 							$(".invest_startTime").val(data.data.startTime);
@@ -387,6 +440,7 @@
 		$(".essential div div input").click(function(){
 			this.readOnly=true;
 		});
+		
 //  设置时间
 			(function($) {
 				$.init();
@@ -435,6 +489,20 @@
 						
 					}, false);
 			})(mui);
+		
+//  现场情况
+	document.getElementById("fieldStuation").addEventListener('tap',function(){
+		mui.openWindow({
+		    url: 'fieldStuation.html?projectId='+projectId, 
+		    id:'field'
+		});
+	})
+//  当内容改变时显示保存按钮
+	function textChange(parent,text,btn){
+		$(parent).on("change",text,function(){
+			$(btn).show();
+		});
+	}
 		</script>
 	</body>
 

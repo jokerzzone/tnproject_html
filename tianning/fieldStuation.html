@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>现场情况</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<!--<link rel="stylesheet" type="text/css" href="css/iconfont.css" />-->
+		<link rel="stylesheet" href="css/mui.min.css">
+		<!--App自定义的css-->
+		<!--<link rel="stylesheet" type="text/css" href="css/app.css" />-->
+		<style>
+			h5 {
+				padding-top: 8px;
+				padding-bottom: 8px;
+				text-indent: 12px;
+			}
+			
+			.mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-body {
+				font-size: 15px;
+				margin-top: 8px;
+				color: #333;
+				height: 40px;
+			}
+			
+			
+			.remark {
+				position: relative;
+				height: 80%;
+			}
+			
+			.deleteBtn {
+				position: absolute;
+				top: 10px;
+				right: -5px;
+				display: block;
+				color: red;
+			}
+			.deleteBtn:hover{
+				cursor: pointer;
+			}
+		</style>
+	</head>
+	
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">拍照 </h1>
+			<a class="mui-icon-right-nav mui-pull-right">
+				<span id="headImage" class="mui-icon mui-icon-camera"></span>
+			</a>
+			<a class="mui-icon-right-nav mui-pull-right">
+				<span id="uploadImage" class="mui-icon mui-icon-upload"></span>
+			</a>
+		</header>
+		<div class="mui-content" style="background-color:#fff">
+			<ul id="imgs" class="mui-table-view mui-grid-view">
+				<!--<li class="mui-table-view-cell mui-media mui-col-xs-6">
+					<a href="#">
+						<img class="mui-media-object" src="images/shuijiao.jpg">
+						<span class="mui-icon mui-icon-trash deleteBtn"></span>
+						<div class="mui-media-body">
+							<input type="text" class="remark" placeholder="备注">
+						</div>
+					</a>
+				</li>-->
+			</ul>
+			<button id="bt">预览</button>
+		</div>
+	</body>
+	<script src="js/mui.min.js"></script>
+	<script src="js/url.js"></script>
+	<script type="text/javascript" src="js/jquery.min.js" ></script>
+	<script>
+		//  获取页面url的type和content
+			function getUrlParam(key){
+			    // 获取参数
+			    var url = window.location.search;
+			    // 正则筛选地址栏
+			    var reg = new RegExp("(^|&)"+ key +"=([^&]*)(&|$)");
+			    // 匹配目标参数
+			    var result = url.substr(1).match(reg);
+			    //返回参数值
+			    return result ? decodeURIComponent(result[2]) : null;
+			}
+			var projectId=getUrlParam("projectId");
+		
+		var fileArr = [];
+		var keys = "";
+		var remarkValue = "";
+		mui.init({
+			swipeBack: true //启用右滑关闭功能
+		});
+		document.getElementById('headImage').addEventListener('tap', function() {
+			if(mui.os.plus) {
+				var buttonTit = [{
+					title: "拍照"
+				}, {
+					title: "从手机相册选择"
+				}];
+
+				plus.nativeUI.actionSheet({
+					title: "上传图片",
+					cancel: "取消",
+					buttons: buttonTit
+				}, function(b) { /*actionSheet 按钮点击事件*/
+					switch(b.index) {
+						case 0:
+							break;
+						case 1:
+							getImage(); /*拍照*/
+							break;
+						case 2:
+							galleryImg(); /*打开相册*/
+							break;
+						default:
+							break;
+					}
+				})
+			}
+		}, false);
+
+		// 拍照获取图片  
+		function getImage() {
+			var c = plus.camera.getCamera();
+			c.captureImage(function(e) {
+				plus.io.resolveLocalFileSystemURL(e, function(entry) {
+					var imgSrc = entry.toLocalURL() + "?version=" + new Date().getTime(); //拿到图片路径  
+					setFile(imgSrc);
+					setHtml(imgSrc);
+				}, function(e) {
+					console.log("读取拍照文件错误：" + e.message);
+				});
+			}, function(s) {
+				console.log("error" + s.message);
+			}, {
+				filename: "_doc/camera/"
+			})
+		}
+		// 从相册中选择图片   
+		function galleryImg() {
+			// 从相册中选择图片  
+			plus.gallery.pick(function(e) {
+				for(var i in e.files) {
+					var fileSrc = e.files[i];
+					setFile(fileSrc);
+					setHtml(fileSrc);
+				}
+			}, function(e) {
+				console.log("取消选择图片");
+			}, {
+				filter: "image",
+				multiple: true,
+				//maximum: 5,
+				system: false,
+				onmaxed: function() {
+					plus.nativeUI.alert('最多只能选择5张图片');
+				}
+			});
+		}
+
+		function setHtml(path) {
+			var str = '';
+			str = '<li class="imgList mui-table-view-cell mui-media mui-col-xs-6">'+
+					'<img class="mui-media-object" src="'+path+'">'+
+					'<span class="mui-icon mui-icon-trash deleteBtn"></span>'+
+					'<div class="mui-media-body">'+
+						'<input type="text" class="remark" placeholder="备注">'+
+					'</div>'+
+				'</li>';
+			jQuery("#imgs").append(str);
+		}
+		
+		function setFile(fileSrc){
+			var image = new Image();  
+			image.src = fileSrc;
+			fileArr.push(image);
+		}
+		
+		
+		document.getElementById('uploadImage').addEventListener('tap',function(){
+			var files = fileArr;
+			for(var i=0;i<files.length;i++){
+		        keys = keys + i + ',';
+		    }
+		    keys = keys.substr(0,keys.length-1);
+		    var remark = document.getElementsByClassName("remark");
+		   
+		    for (var i=0;i<remark.length;i++){
+		    	remarkValue =  remarkValue+remark[i].value+",";
+		    }
+		    alert(remarkValue)
+		    remarkValue = remarkValue.substr(0,remarkValue.length-1);
+			
+			var token = sessionStorage.getItem('token');
+			
+		 	var wt=plus.nativeUI.showWaiting();
+		 	
+            var task=plus.uploader.createUpload(commonUrl+'/android/attach/imageUpload?remarks='+remarkValue+'&fileKeys='+keys+'&projectId='+projectId,
+
+//          var task=plus.uploader.createUpload('http://192.168.1.111:8181:sys-privilege/Upload',
+                {method:"POST"},
+                function(t,status){ //上传完成
+                    if(status==200){
+                    	fileArr = [];
+                    	keys = "";
+                    	remarkValue = "";
+                        alert("上传成功："+t.responseText);
+                        wt.close(); //关闭等待提示按钮
+                    }else{
+                        alert("上传失败："+status);
+                        wt.close();//关闭等待提示按钮
+                    }
+                }
+            );  
+             //将文件集合添加到上传队列中
+             
+             
+             
+		    for(var i=0;i<files.length;i++){
+		        var f=files[i];
+		        task.addFile(f.src,{key:i});
+		    }
+            task.start();
+		});	
+//  图片删除
+	$("#imgs").on("tap",".deleteBtn",function(){
+		alert(1);
+		var imgName = this.getAttribute("imgName");
+		mui.ajax(commonUrl+'/android/attach/deleteImage',{
+			data:{
+				projectId:projectId,
+				name:imgName
+			},
+			type:'post',//HTTP请求类型
+			timeout:10000,//超时时间设置为10秒；
+			success:function(data){
+				//服务器返回响应，根据响应结果，分析是否登录成功；
+				if(data.code==1){
+					console.log(data);
+					mui.ajax(commonUrl+'/android/attach/imageList?projectId='+projectId,{
+			type:'post',//HTTP请求类型
+			timeout:10000,//超时时间设置为10秒；
+			success:function(data){
+				//服务器返回响应，根据响应结果，分析是否登录成功；
+				if(data.code==1){
+					$("#imgs").find(".imgList").remove();
+					for(var i=0;i<data.data.images.length;i++){
+						var str = '';
+						str = '<li class="imgList mui-table-view-cell mui-media mui-col-xs-6">'+
+								'<img class="mui-media-object" src="'+commonUrl+'/image/'+data.data.images[i]+'.jpg" imgName="'+data.data.images[i]+'">'+
+								'<span class="mui-icon mui-icon-trash deleteBtn"></span>'+
+//								'<div class="mui-media-body">'+
+//									'<input type="text" class="" placeholder="''">'+
+//								'</div>'+
+							'</li>';
+						jQuery("#imgs").append(str);
+					}
+				}
+			},
+			error:function(xhr,type,errorThrown){
+				//异常处理；
+				console.log(type);
+			}
+		});
+				}
+			},
+			error:function(xhr,type,errorThrown){
+				//异常处理；
+				console.log(type);
+			}
+		});
+	})
+//  图片预览
+	function preview(){
+//		var task=plus.uploader.createUpload(,
+		mui.ajax(commonUrl+'/android/attach/imageList?projectId='+projectId,{
+			type:'post',//HTTP请求类型
+			timeout:10000,//超时时间设置为10秒；
+			success:function(data){
+				//服务器返回响应，根据响应结果，分析是否登录成功；
+				if(data.code==1){
+					for(var i=0;i<data.data.images.length;i++){
+						var str = '';
+						str = '<li class="imgList mui-table-view-cell mui-media mui-col-xs-6">'+
+								'<img class="mui-media-object" src="'+commonUrl+'/image/'+data.data.images[i]+'.jpg" imgName="'+data.data.images[i]+'">'+
+								'<span class="mui-icon mui-icon-trash deleteBtn"></span>'+
+//								'<div class="mui-media-body">'+
+//									'<input type="text" class="" placeholder="''">'+
+//								'</div>'+
+							'</li>';
+						jQuery("#imgs").append(str);
+					}
+				}
+			},
+			error:function(xhr,type,errorThrown){
+				//异常处理；
+				console.log(type);
+			}
+		});
+	}
+	document.getElementById("bt").addEventListener('tap',function(){
+		preview();
+	})
+	</script>
+
+</html>

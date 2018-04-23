@@ -6,7 +6,7 @@
 		<title>主页</title>
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<link href="css/mui.min.css" rel="stylesheet" />
-	
+		<link rel="stylesheet" href="css/iconfont.css" />
 	<style>
 		.main_layout {
 			margin: 0!important;
@@ -49,15 +49,24 @@
 			line-height: 50px;
 		}
 		.mui-table-view-cell {
-			padding:13px 15px;
+			padding:5px 15px;
 		}
 		.mui-icon {
 			line-height: 2;
 		}
-		#mainBtnSearch {
-			line-height: 45px;
-			color:#fff;
+		.mui-input-row.mui-search .mui-icon-clear {
+			top:-3px;
+		}
+		.list_part span {
+			display: block;
+			line-height: 65px;
 			font-size: 16px;
+		}
+		.list_part .mui-icon {
+			/*display: inline-block;*/
+			text-align: center;
+			margin-right: 20px;
+			font-size: 36px;
 		}
 	</style>
 	</head>
@@ -66,16 +75,16 @@
 		<!--头部-->
 		<header class="mui-bar mui-bar-nav" style="background: #4BAFFA;">
     		<h1 class="mui-title" style="color: #fff;">全部项目</h1>
-			<span id="mainBtnSearch" class="mui-pull-right">查询</span>
+			<!--<span id="mainBtnSearch" class="mui-pull-right">查询</span>-->
 		</header>
 		<div class="mui-content">
 			<div id="list" class="mui-card" style="margin: 0;">
-				<div id="mainSearch" class="mui-input-row mui-search" style="display: none;">
-				    <input id="search" type="search" class="mui-input-clear mui-pull-left" placeholder="请输入项目名称" style="margin: 5px 0;">
+				<div id="mainSearch" class="mui-input-row mui-search" style="margin:0 auto;margin-top: 5px;width: 95%;">
+				    <input id="search" type="search" class="mui-input-clear" placeholder="搜索" onclick="search();">
 				</div>
 				<ul class="mui-table-view ul_all">
-					<li class="mui-table-view-cell mui-collapse mui-active">
-						<a class="mui-navigate-right list_part" href="#" key=1>责任单位</a>
+					<li class="mui-table-view-cell mui-collapse ">
+						<a class="mui-navigate-right list_part" href="#" key=1><span class="mui-icon iconfont icon-daolu mui-pull-left" style="color:#2AC845;"></span><span class="mui-pull-left">街道</span></a>
 						<div class="mui-collapse-content">
 							<ul class="mui-table-view mui-grid-view ul_depart">
 					            <li class="li_one mui-table-view-cell mui-media mui-col-xs-3" style="display: none;">
@@ -88,28 +97,28 @@
 						</div>
 					</li>
 					<li class="mui-table-view-cell mui-collapse">
-						<a class="mui-navigate-right list_part" href="#" key=2>阶段</a>
+						<a class="mui-navigate-right list_part" href="#" key=2><span class="mui-icon iconfont icon-xiaoshoujieduanshengqian mui-pull-left" style="color:#FF5053;"></span><span class="mui-pull-left">阶段</span></a>
 						<div class="mui-collapse-content">
 							<ul class="mui-table-view mui-grid-view ul_stage">
 					        </ul> 
 						</div>
 					</li>
 					<li class="mui-table-view-cell mui-collapse">
-						<a class="mui-navigate-right list_part" href="#" key=3>行业</a>
+						<a class="mui-navigate-right list_part" href="#" key=3><span class="mui-icon iconfont icon-icon_hangyefenlei mui-pull-left" style="color:#23C6C8;"></span><span class="mui-pull-left">行业</span></a>
 						<div class="mui-collapse-content">
 							<ul class="mui-table-view mui-grid-view ul_tarde">
 					        </ul>  
 						</div>
 					</li>
 					<li class="mui-table-view-cell mui-collapse">
-						<a class="mui-navigate-right list_part" href="#" key=4>性质</a>
+						<a class="mui-navigate-right list_part" href="#" key=4><span class="mui-icon iconfont icon-xinjiangongcheng mui-pull-left" style="color:#FFB400;"></span><span class="mui-pull-left">性质</span></a>
 						<div class="mui-collapse-content">
 							<ul class="mui-table-view mui-grid-view ul_property">
 					        </ul>  
 						</div>
 					</li>
 					<li class="mui-table-view-cell mui-collapse" style="display: none;">
-						<a class="mui-navigate-right list_part" href="#" key=5>类别</a>
+						<a class="mui-navigate-right list_part" href="#" key=5><span class="mui-icon mui-icon-spinner mui-spin mui-pull-left"></span><span class="mui-pull-left">类别</span></a>
 						<div class="mui-collapse-content">
 							<ul class="mui-table-view mui-grid-view ul_classification">
 					        	<p style="margin-top: 10px;margin-bottom: -10px;">暂无数据</p>
@@ -117,7 +126,7 @@
 						</div>
 					</li>
 					<li class="mui-table-view-cell mui-collapse" style="display: none;">
-						<a class="mui-navigate-right list_part" href="#" key=6>层次</a>
+						<a class="mui-navigate-right list_part" href="#" key=6><span class="mui-icon mui-icon-spinner mui-spin mui-pull-left"></span><span class="mui-pull-left">层次</span></a>
 						<div class="mui-collapse-content">
 							<ul class="mui-table-view mui-grid-view ul_arrangement">
 					        	<p style="margin-top: 10px;margin-bottom: -10px;">暂无数据</p>
@@ -129,14 +138,14 @@
 		</div>
 		<script src="js/url.js"></script>
 		<script src="js/mui.min.js"></script>
-		<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+		<script src="js/jquery.min.js"></script>
 		<script type="text/javascript" src="js/tool.js" ></script>
 		<script type="text/javascript">
 			mui.init();
 			mui.ready(function(){
 				main();
 			});
-			
+		
 			function main(){
 				var token = sessionStorage.getItem('token');
 				var username = sessionStorage.getItem('username');
@@ -238,19 +247,13 @@
 				    id:'list_all_data'
 				  });
 			})
-		
-//  模糊查询
-	document.getElementById("mainBtnSearch").addEventListener('tap',function(){
-		$("#mainSearch").toggle();
-	})
-//  手机键盘搜索
-	document.getElementById("search").addEventListener("keypress",function(event) {
-    if(event.keyCode == "13") {
-        document.activeElement.blur();//收起虚拟键盘
-        toSearch();//TODO 完成搜索事件
-        event.preventDefault(); // 阻止默认事件---阻止页面刷新
-    	}
-	});
+//  项目查询
+	function search(){
+		mui.openWindow({
+		   url:'search.html',  
+		   id:'search'
+		});
+	}		
 		</script>
 	</body>
 

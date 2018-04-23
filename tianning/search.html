@@ -1,0 +1,123 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<style>
+			.mui-search .mui-placeholder {
+				text-align: left;
+			}
+			.mui-input-row.mui-search .mui-icon-clear {
+				right: 12%;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="mui-input-row mui-search" style="margin:0 auto;margin-top: 5px;width: 95%;">
+		    <input id="projectSearch" type="search" class="mui-input-clear mui-pull-left" placeholder="搜索" autofocus="autofocus" style="width: 88%;">
+		    <a class="mui-action-back mui-pull-right" style=" width: 12%; text-align: center; line-height: 34px;">取消</a>
+		</div>
+		<div class="mui-content">
+			<ul id="list" class="mui-table-view mui-table-view-chevron">
+				<!--<li class="resultList mui-table-view-cell">
+					<a class="result" href="#">
+						accordion（折叠面板）
+					</a>
+				</li>-->
+			</ul>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script src="js/jquery.min.js"></script>
+		<script src="js/url.js"></script>
+		<script type="text/javascript">
+			mui.init();
+//		  获取页面url的type和content
+			function getUrlParam(key){
+			    // 获取参数
+			    var url = window.location.search;
+			    // 正则筛选地址栏
+			    var reg = new RegExp("(^|&)"+ key +"=([^&]*)(&|$)");
+			    // 匹配目标参数
+			    var result = url.substr(1).match(reg);
+			    //返回参数值
+			    return result ? decodeURIComponent(result[2]) : null;
+			}
+			var type=getUrlParam("type");
+			var name = getUrlParam("name");
+			if(name=="全部项目"){
+				type=0;
+				name="null";
+			}else if(name=="全部"){
+				type=0;
+				name="null";
+			}
+		
+//  手机键盘搜索
+	document.getElementById("projectSearch").addEventListener("keypress",function(event) {
+    if(event.keyCode == "13") {
+       document.activeElement.blur();//收起虚拟键盘
+     
+     	var ProjectSearchName = document.getElementById("projectSearch").value;
+		var token = sessionStorage.getItem('token');
+    	mui.ajax(commonUrl+'/android/project/projectSearch;jsessionid='+token,{
+			data:{
+				type:type,
+				name:name,
+				content:ProjectSearchName
+			},
+			type:'post',//HTTP请求类型
+			timeout:10000,//超时时间设置为10秒；
+			success:function(data){
+				//服务器返回响应，根据响应结果，分析是否登录成功；
+				console.log(data);
+				if(data.code==1){
+					var id = data.data[0].id;
+					var titleName = data.data[0].name;
+					for(var i=0;i<data.data.length;i++){
+						console.log(data.data[i].name);
+						var str="";
+						str = '<li class="resultList mui-table-view-cell">'+
+						'<a id="'+data.data[i].id+'" class="result" href="#" key="'+data.data[i].name+'">'+
+							data.data[i].name+
+						'</a>'+
+					'</li>';
+					$("#list").append(str);
+					}
+//					mui.openWindow({
+//					    url: 'list_all_data.html?id='+id+'&titleName='+titleName, 
+//					    id:'list_all_data_detail'
+//					  });
+			
+				  ProjectSearchName = "";
+				}
+			},
+			error:function(){
+				//异常处理；
+				alert("没有查询到项目名称");
+			}
+		});
+      
+      	toSearch();//TODO 完成搜索事件
+        event.preventDefault(); // 阻止默认事件---阻止页面刷新
+        
+    	}
+	});
+//  点击进入详情页面	
+	mui("#list").on('tap', '.result', function() {
+	//获取id
+		var id = this.getAttribute("id");
+		var titleName = this.getAttribute("kay");
+		var lockstatus = this.getAttribute("lockstatus");
+		mui.openWindow({
+		    url: 'list_all_data.html?id='+id+'&titleName='+titleName+'&lockstatus='+lockstatus, 
+		    id:'list_all_data_detail'
+		});
+	})
+		</script>
+	</body>
+
+</html>

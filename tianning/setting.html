@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html>
 
 	<head>
@@ -9,7 +9,9 @@
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 
 		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" href="css/iconfont.css" />
 		<link rel="stylesheet" href="css/mui.picker.min.css" />
+		<link rel="stylesheet" href="css/app.css" />
 		<style>
 			html,
 			body {
@@ -189,6 +191,19 @@
 			.mui-table-view:after{
 				background: #FFFFFF;
 			}
+			.mui-switch.mui-active:before,
+			.mui-switch:before {
+				line-height: 22px;
+			}
+			#setYear,
+			#setMonth {
+				padding: 0 52px;
+				display: inline-block;
+			}
+			#setYear option,
+			#setMonth option {
+				text-align: center;
+			}
 		</style>
 		<link rel="stylesheet" type="text/css" href="css/feedback.css" />
 	</head>
@@ -208,7 +223,7 @@
 		<div id="setting" class="mui-page">
 			<!--页面标题栏开始-->
 			<div class="mui-navbar-inner mui-bar mui-bar-nav" style="background: #4BAFFA;">
-				<h1 class="mui-center mui-title" style="color: #FFFFFF;">设置</h1>
+				<h1 class="mui-center mui-title" style="color: #FFFFFF;font-weight: bolder;">设置</h1>
 			</div>
 			<!--页面标题栏结束-->
 			<!--页面主内容区开始-->
@@ -226,30 +241,71 @@
 								</a>
 							</li>
 						</ul>
-						<ul class="mui-table-view mui-table-view-chevron">
+						<ul class="mui-table-view mui-table-view-chevron" style="margin-top:5px ;">
 							<li class="mui-table-view-cell mui-collapse">
-								<a class="mui-navigate-right" href="#" style="background: #fff;"><span class="mui-icon mui-icon-gear" style="color: #4BAFFA;font-weight: bold;"></span>&nbsp;&nbsp;设置</a>
+								<a class="mui-navigate-right" href="#" style="background: #fff;"><span class="mui-icon mui-icon-info" style="color: #4BAFFA;font-weight: bold;"></span>&nbsp;&nbsp;基本设置</a>
 								<div class="mui-collapse-content" style=" background-color: #eee; padding: 0;">
 									<ul class="" style="width: 100%; padding: 0;">
-							            <li  id="" class="" style="width: 100%; line-height: 45px;padding:0 15px;font-size: 14px; list-style: none;background: #F7F7F7;">
-							            	基本设置
-											<button id='setTime' data-options='{"type":"month"}' class="btn mui-btn mui-btn-block" style="margin-bottom: 0;padding: 10px 0;">选择月份</button>
-											<div class="mui-col-sm-12 mui-clearfix" style="margin: 5px 0;" >
-												<select name="" id="" class="mui-pull-left" style="width: 50%;">
-													<option value="1" class="">预计</option>
-													<option value="1" class="">统计</option>
+							            <li style="width: 99%; line-height: 45px;font-size: 14px; list-style: none;background: #FFFFFF;margin-left: auto;margin-right: auto;margin-top: 5px;">
+							            	<div class="mui-col-sm-12 mui-clearfix" style="margin-top: 5px;">
+												<select id="setYear"  class="mui-btn" style="width:49%;height:37px;color:#8f8f94;border: 1px solid #ccc !important;">
+													<option value="0" class="">全部年份</option>
+													<option value="1" class="">2017年</option>
+													<option value="2" class="">2018年</option>
+													<option value="3" class="">2019年</option>
+													<option value="3" class="">2020年</option>
+													<option value="3" class="">2021年</option>
+													<option value="3" class="">2022年</option>
+													<option value="3" class="">2023年</option>
 												</select>
-												<button class="mui-pull-left" style="width: 50%;height: 40px;"><span class="mui-icon mui-icon-locked"></span>锁定</button>
+												<select id="setMonth"  class="mui-btn" style="width: 49%;height:37px;color:#8f8f94;border: 1px solid #ccc !important;">
+													<option value="0" class="">全部月份</option>
+													<option value="1" class="">01月</option>
+													<option value="2" class="">02月</option>
+													<option value="3" class="">03月</option>
+													<option value="3" class="">04月</option>
+													<option value="3" class="">05月</option>
+													<option value="3" class="">06月</option>
+													<option value="3" class="">07月</option>
+													<option value="3" class="">08月</option>
+													<option value="3" class="">09月</option>
+													<option value="3" class="">10月</option>
+													<option value="3" class="">11月</option>
+													<option value="3" class="">12月</option>
+												</select>
+											</div>
+											<div class="mui-card" style="box-shadow: none; margin: 0;border: 1px solid #ccc !important;">
+												<form class="mui-input-group">
+													<div class="mui-input-row mui-radio mui-left">
+														<label style="color:#8f8f94;">预计</label>
+														<input name="radio1" type="radio" checked>
+													</div>
+													<div class="mui-input-row mui-radio mui-left">
+														<label style="color:#8f8f94;">统计</label>
+														<input name="radio1" type="radio">
+													</div>
+												</form>
+											</div>
+											
+											
+											<div class="mui-table-view-cell" style="height: 45px;background: #FFFFFF;margin-top:5px;border: 1px solid #ccc !important;border-radius: 2px;">
+												<div id="lokingstausName" style="margin-top: -10px;color: red;">状态：<span></span>锁定</div>
+												<div id="loking" class="mui-switch mui-active">
+													<div class="mui-switch-handle"></div>
+												</div>
 											</div>
 							            </li>
-							            <li  id="updatePassword" class="" style="width: 100%; line-height: 45px;padding-left: 15px;font-size: 14px; list-style: none;background: #F7F7F7;">
-							            	修改密码
-							            </li>
+							            
 							        </ul> 
 								</div>
 							</li>
 						</ul>
-						<ul class="mui-table-view">
+						<ul class="mui-table-view" style="margin-top: 5px;">
+							<li id="updatePassword" class="mui-table-view-cell" >
+				            	<span class="mui-icon mui-icon-locked" style="color: #4BAFFA;font-weight: bold;"></span> 修改密码
+				            </li>
+						</ul>
+						<ul class="mui-table-view" style="margin-top: 5px;">
 							<li class="mui-table-view-cell" style="text-align: center;">
 								<a id="quit">退出登录</a>
 							</li>
@@ -265,27 +321,53 @@
 	<script src="js/mui.min.js "></script>
 	<script src="js/mui.view.js "></script>
 	<script src='js/feedback.js'></script>
-	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script src="js/jquery.min.js"></script>
 	<script src="js/mui.picker.min.js"></script>
 	<script>
+		
 		mui.init();
+//	获取token值
+		var token = sessionStorage.getItem("token");
+		var lockStatus = sessionStorage.getItem("lockStatus");
+		if(lockStatus==1){
+			$("#loking").addClass("mui-active");
+		}else{
+			$("#loking").removeClass("mui-active");
+		}
 		//初始化单页view
 		var viewApi = mui('#app').view({
 			defaultPage: '#setting'
 		});
 //		页面初始化
 		mui.ready(function(){
-//			权限
+//		权限
 			power();
+			getRoleIdByUserName(token);
+			if(sessionStorage.getItem('roleId')==1||sessionStorage.getItem('roleId')==11){
+				
+			}else{
+				$("#loking").addClass("mui-disabled");
+			}
 		})
+//  获取角色
+	function  getRoleIdByUserName(token){
+		mui.ajax(commonUrl+'/android/role/listByUsername;jsessionid='+token,{
+			dataType: 'json', //服务器返回json格式数据
+			type: 'post', //HTTP请求类型
+			async:false, 
+		     success: function(data) {
+				if(data.code=='1'){
+					sessionStorage.setItem("roleId",data.data[0].id);
+				}
+			}
+		});
+	}
 //	权限
 		function power(){
-			var token = sessionStorage.getItem("token");
 			mui.ajax(commonUrl+'/android/role/listByUsername;jsessionid='+token,{
 				dataType:'json',//服务器返回json格式数据
 				type:'post',//HTTP请求类型
 				timeout:10000,//超时时间设置为10秒；
-//				headers:{'Content-Type':'application/json'},	              
 				success:function(data){
 					//服务器返回响应，根据响应结果，分析是否登录成功；
 					if(data.code==1){
@@ -315,11 +397,10 @@
 			});
 		}
 		
-//	设置
 //		修改密码
 		function updatePassword(){
 		    var inputValue = (document.querySelector('.mui-popup-input input').value);
-			alert(inputValue);
+//			alert(inputValue);
 			var token = sessionStorage.getItem("token");
 			mui.ajax(commonUrl+'/android/update;jsessionid='+token,{
 					data:{
@@ -343,67 +424,112 @@
 				mui.prompt(' ', ' ', '请输入新的密码', btnArray, function(e) {
 					document.querySelector('.mui-popup-input input').type='password';
 					if (e.index == 1) {
-//		                var inputValue = (document.querySelector('.mui-popup-input input').value);
-//						alert(inputValue);
 						updatePassword();
 					} 
 				})
 			});
 			
-			
-		var view = viewApi.view;
-		(function($) {
-//  处理view的后退与webview后退
-			var oldBack = $.back;
-			$.back = function() {
-				if (viewApi.canBack()) { //如果view可以后退，则执行view的后退
-					viewApi.back();
-				} else { //执行webview后退
-					oldBack();
-				}
-			};
-			//监听页面切换事件方案1,通过view元素监听所有页面切换事件，目前提供pageBeforeShow|pageShow|pageBeforeBack|pageBack四种事件(before事件为动画开始前触发)
-			//第一个参数为事件名称，第二个参数为事件回调，其中e.detail.page为当前页面的html对象
-			view.addEventListener('pageBeforeShow', function(e) {
-				//				console.log(e.detail.page.id + ' beforeShow');
-			});
-			view.addEventListener('pageShow', function(e) {
-				//				console.log(e.detail.page.id + ' show');
-			});
-			view.addEventListener('pageBeforeBack', function(e) {
-				//				console.log(e.detail.page.id + ' beforeBack');
-			});
-			view.addEventListener('pageBack', function(e) {
-				//				console.log(e.detail.page.id + ' back');
-			});
-		})(mui);
-	
 //	设置时间
-	(function($) {
-		$.init();
-		var result = $('#setTime')[0];
-			result.addEventListener('tap', function() {
-				var _self = this;
-				if(_self.picker) {
-					_self.picker.show(function (rs) {
-						result.innerText = rs.text;
-						_self.picker.dispose();
-						_self.picker = null;
-					});
-				} else {
-					var optionsJson = this.getAttribute('data-options') || '{}';
-					var options = JSON.parse(optionsJson);
-					var id = this.getAttribute('id');
-					_self.picker = new $.DtPicker(options);
-					_self.picker.show(function(rs) {
-						result.innerText = rs.text;
-						_self.picker.dispose();
-						_self.picker = null;
-					});
-				}
-				
-			}, false);
-	})(mui);
+	$("#setYear").change(function(){
+		var Year=$("#setYear option:selected").text().substring(0,4);
+		var Month=$("#setMonth option:selected").text();
+		if(Month=="全部月份"){
+			Month="全部月份";
+		}else{
+			Month=Month.substring(0,2);
+		}
+		var time = Year+Month;
+		setTime(time);
+		localStorage.setItem('year',Year);
+		localStorage.setItem('month',Month);
+	});
+	$("#setMonth").change(function(){
+		var Year=$("#setYear option:selected").text().substring(0,4);
+		var Month=$("#setMonth option:selected").text();
+		if(Month=="全部月份"){
+			Month="全部月份";
+		}else{
+			Month=Month.substring(0,2);
+		}
+		var time = Year+Month;
+		setTime(time);
+		localStorage.setItem('year',Year);
+		localStorage.setItem('month',Month);
+	});
+//	设置时间发送ajak
+	function setTime(t){
+		mui.ajax(commonUrl+'/android/time/get;jsessionid='+token,{
+			data:{
+				time:t
+			},
+			type:'post',//HTTP请求类型
+			timeout:10000,//超时时间设置为10秒；
+			success:function(data){
+				//服务器返回响应，根据响应结果，分析是否登录成功；
+				localStorage.setItem('time', t);
+				var time = localStorage.getItem('time');
+				console.log(time);
+				console.log("时间设置成功");
+			},
+			error:function(xhr,type,errorThrown){
+				//异常处理；
+				console.log(type);
+			}
+		});
+	}
+
+//  锁定
+	function updateLoking(){
+//		alert(lockStatus);
+		if(lockStatus==1){
+			lockStatus=0;
+		}else{
+			lockStatus=1;
+		}
+		mui.ajax(commonUrl+'/android/role/updateLockStatus',{
+			data:{
+				lockStatus:lockStatus
+			},
+			type:'post',//HTTP请求类型
+			timeout:10000,//超时时间设置为10秒；
+			success:function(data){
+				//服务器返回响应，根据响应结果，分析是否登录成功；
+				console.log("修改成功");
+				console.log(lockStatus);
+			},
+			error:function(type){
+				//异常处理；
+				console.log(type);
+			}
+		});
+	}
+	document.getElementById("loking").addEventListener('tap',function(){
+		updateLoking();
+	})
+//  统计预计
+		var val = $('input[name="radio1"]:checked').val();
+		console.log(val);
+		 $('input[type=radio][name=radio1]').change(function() {
+        if (this.value == 'allot') {
+            alert("Allot Thai Gayo Bhai");
+        }
+        else if (this.value == 'transfer') {
+            alert("Transfer Thai Gayo");
+        }
+    });
+//  锁定开关按钮
+	mui('.mui-switch').each(function() { //循环所有toggle
+		//toggle.classList.contains('mui-active') 可识别该toggle的开关状态
+		this.parentNode.querySelector('#lokingstausName').innerText = '状态：' + (this.classList.contains('mui-active') ? '锁定' : '未锁定');
+		/**
+		 * toggle 事件监听
+		 */
+		this.addEventListener('toggle', function(event) {
+			//event.detail.isActive 可直接获取当前状态
+			this.parentNode.querySelector('#lokingstausName').innerText = '状态：' + (event.detail.isActive ? '锁定' : '未锁定');
+		});
+	});
+
 //  退出登录
 	document.getElementById("quit").addEventListener('tap',function(){
 		mui.ajax(commonUrl+'/android/user/loginOut',{

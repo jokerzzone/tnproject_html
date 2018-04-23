@@ -10,7 +10,9 @@
 			"main.html",
 			"map.html",
 			"set.html",
-			"reports.html"
+			"reports.html",
+			"echarts.html",
+			"setting.html"
 		]
 	},
 	"main.html": {
@@ -43,12 +45,14 @@
 	"list_all.html": {
 		"refer": [
 			"list_all_data.html",
-			"map.html"
+			"map.html",
+			"search.html"
 		]
 	},
 	"list_all_data.html": {
 		"refer": [
-			"list_procedure.html"
+			"list_procedure.html",
+			"fieldStuation.html"
 		]
 	}
 }
