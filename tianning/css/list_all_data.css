@@ -78,7 +78,7 @@
 	height: 50px;
 	line-height: 2.1!important;
 	padding-right: 0!important;
-	border-right: 1px solid #EEE;
+	/*border-right: 1px solid #EEE;*/
 }
 .label_checkbox {
 	line-height: 2.1!important;

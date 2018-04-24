@@ -18,7 +18,8 @@
 	"main.html": {
 		"refer": [
 			"qinglong.html",
-			"list_all.html"
+			"list_all.html",
+			"search.html"
 		],
 		"resources": []
 	},
@@ -53,6 +54,22 @@
 		"refer": [
 			"list_procedure.html",
 			"fieldStuation.html"
+		]
+	},
+	"search.html": {
+		"refer": [
+			"list_all_data.html",
+			"map.html"
+		]
+	},
+	"setting.html": {
+		"refer": [
+			"login.html"
+		]
+	},
+	"echarts.html": {
+		"resources": [
+			"libs/echarts-all.js"
 		]
 	}
 }

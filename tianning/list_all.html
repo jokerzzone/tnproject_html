@@ -54,6 +54,9 @@
 			.essentials span {
 				color:#FF0000;
 			}
+			.mui-table-view-cell {
+				padding: 7px 15px;
+			}
 		</style>
 	</head>
 
@@ -68,13 +71,16 @@
 			</div>
 			<div class="essentials">
 				<div class="essentials_main">
-				<marquee>
-					<span id="buildPlaceName"></span>共<span id="projectNumber">26</span>个项目，
-					<span id="">2018</span>年计划投资<span id="">36.7</span>亿元,
-					其中<span id="">3</span>个续建项目，
-					<span id="">2018</span>年计划投资<span id="">6.4</span>亿元；
-					<span id="">23</span>个新建项目，
-					<span id="">2018</span>年计划投资<span id="">30.3</span>亿元。
+				<marquee id="details">
+					<span id="buildPlaceName"></span>共<span id="buildPlaceCount"></span>个项目，
+					<span class="year"></span>年计划投资<span id="buildPlacePlanInvestment"></span>元,
+					已完成投资<span id="buildPlaceFinishInvestment"></span>元；
+					其中<span id="property1Count"></span>个续建项目，
+					<span class="year"></span>年计划投资<span id="property1PlanInvestment"></span>元；
+					已完成投资<span id="property1TotalInvest"></span>元；
+					<span id="property2Count"></span>个新建项目，
+					<span class="year"></span>年计划投资<span id="property2PlanInvestment"></span>元。
+					已完成投资<span id="property2TotalInvest"></span>元。
 				</marquee>
 				</div>
 			</div>
@@ -102,7 +108,7 @@
 			mui.init({
 			beforeback: function(){
 				//获得列表界面的webview
-				var list = plus.webview.getWebviewById('list');
+				var list = plus.webview.getWebviewById('pullrefresh');
 				//触发列表界面的自定义事件（refresh）,从而进行数据刷新
 				mui.fire(list,'refresh');
 				//返回true，继续页面关闭逻辑
@@ -278,6 +284,7 @@
 						'</li>'
 						$("#OA_task_1").append(str);
 					}
+					$("#projectSearch").val("");
 				  ProjectSearchName = "";
 				}
 			},
@@ -305,8 +312,18 @@
 				//服务器返回响应，根据响应结果，分析是否登录成功；
 				if(data.code==1){
 				console.log(data);
+				$(".year").html(year);
 				$("#buildPlaceName").html(data.data.buildPlaceName);
-				$("#property1Count").html(data.data.buildPlaceName);
+				$("#buildPlaceCount").html(data.data.buildPlaceCount);
+				$("#buildPlacePlanInvestment").html(data.data.buildPlacePlanInvestment);
+				$("#buildPlaceFinishInvestment").html(data.data.buildPlaceFinishInvestment);
+				$("#property1Count").html(data.data.property1Count);
+				$("#property1PlanInvestment").html(data.data.property1PlanInvestment);
+				$("#property1TotalInvest").html(data.data.property1TotalInvest);
+				$("#property2Count").html(data.data.property2Count);
+				$("#property2PlanInvestment").html(data.data.property2PlanInvestment);
+				$("#property2TotalInvest").html(data.data.property2TotalInvest);
+				
 				
 				}
 			},
@@ -317,6 +334,10 @@
 		});
 	}
 	
+	document.getElementById("details").addEventListener('tap',function(){
+//		alert(1);
+//		mui.alert(this.html());
+	})
 		</script>
 	
 	</body>

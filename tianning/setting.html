@@ -531,25 +531,60 @@
 	});
 
 //  退出登录
-	document.getElementById("quit").addEventListener('tap',function(){
-		mui.ajax(commonUrl+'/android/user/loginOut',{
-			type:'post',//HTTP请求类型
-			timeout:10000,//超时时间设置为10秒；
-			success:function(data){
-				//服务器返回响应，根据响应结果，分析是否登录成功；
-				if(data.code==1){
-					mui.openWindow({
-				    url: 'login.html', 
-				    id:'login'
-				  });
-				}
-			},
-			error:function(xhr,type,errorThrown){
-				//异常处理；
-				console.log(type);
-			}
-		});
-	})
+		var close = document.getElementById("quit");
+        mui.plusReady(function(){  
+//关闭事件  
+    close.addEventListener('tap',function(){  
+      var btnArray = ['确定', '取消'];  
+      mui.confirm('要退出当前程序吗？', '提示', btnArray, function(e) {  
+        if (e.index == 0) { 
+        	mui.ajax(commonUrl+'/android/user/loginOut',{
+					type:'post',//HTTP请求类型
+					timeout:10000,//超时时间设置为10秒；
+					success:function(data){
+						//服务器返回响应，根据响应结果，分析是否登录成功；
+						if(data.code==1){
+							sessionStorage.setItem("lockStatus","");
+							sessionStorage.setItem("token","");
+							sessionStorage.setItem("year","");
+							sessionStorage.setItem("month","");
+							var old_back = mui.back;
+						}
+					},
+					error:function(xhr,type,errorThrown){
+						//异常处理；
+						console.log(type);
+					}
+				});
+            plus.runtime.quit();  
+        }   
+      })                
+    })  
+      })  
+//		mui.ajax(commonUrl+'/android/user/loginOut',{
+//			type:'post',//HTTP请求类型
+//			timeout:10000,//超时时间设置为10秒；
+//			success:function(data){
+//				//服务器返回响应，根据响应结果，分析是否登录成功；
+//				if(data.code==1){
+//					sessionStorage.setItem("lockStatus","");
+//					sessionStorage.setItem("token","");
+//					sessionStorage.setItem("year","");
+//					sessionStorage.setItem("month","");
+//					var old_back = mui.back;
+//					
+////					mui.openWindow({
+////				    url: 'login.html', 
+////				    id:'login'
+////				  });
+//				}
+//			},
+//			error:function(xhr,type,errorThrown){
+//				//异常处理；
+//				console.log(type);
+//			}
+//		});
+//	})
 		
 
 	</script>

@@ -77,9 +77,21 @@
 		<script type="text/javascript" src="js/url.js" ></script>
 		<script src="js/map/map.js"></script>
 		<script>
+			document.addEventListener('plusready', onPlusReady, false);
 			var isTrue = false;
 			var distance_ = 0;
 			var mapHandler;
+			var startLat;
+			var startLon;
+			var dhMap;
+			function onPlusReady(){
+				plus.geolocation.getCurrentPosition(function(p){
+					startLat = p.coords.latitude;
+					startLon = p.coords.longitude;
+				}, function(e){
+					//alert('Geolocation error: ' + e.message);
+				} );
+			}
 //			
 			//定位
 			function attachViewPoiToEarth(x,y) {

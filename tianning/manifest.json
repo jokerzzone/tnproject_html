@@ -147,7 +147,8 @@
 				"resources": [],
 				"refer": [
 					"qinglong.html",
-					"list_all.html"
+					"list_all.html",
+					"search.html"
 				],
 				"priority": 0
 			},
@@ -188,6 +189,28 @@
 					"list_procedure.html",
 					"fieldStuation.html"
 				],
+				"priority": 0
+			},
+			"search.html": {
+				"resources": [],
+				"refer": [
+					"list_all_data.html",
+					"map.html"
+				],
+				"priority": 0
+			},
+			"setting.html": {
+				"resources": [],
+				"refer": [
+					"login.html"
+				],
+				"priority": 0
+			},
+			"echarts.html": {
+				"resources": [
+					"libs/echarts-all.js"
+				],
+				"refer": [],
 				"priority": 0
 			}
 		},

@@ -8,6 +8,13 @@
 		<link href="css/mui.min.css" rel="stylesheet" />
 		<link rel="stylesheet" href="css/list_all_data.css" />
 		<link rel="stylesheet" type="text/css" href="css/mui.picker.min.css" />
+	<style>
+		.essential_content {
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+	</style>
 	</head>
 
 	<body>
@@ -32,10 +39,9 @@
 											<label class="label">名称</label>
 											<input class="essential_name" type="text" value="">
 										</div>
-										<div class="mui-input-row mui-col-xs-12" style="height: 70px;">
-											<label class="label" style="height: 70px;">内容</label>
-											<textarea class="essential_content" name="" rows="" cols="" style="background-color: #F0F0F0; height: auto;"></textarea>
-
+										<div class="mui-input-row mui-col-xs-12">
+											<label class="label">内容</label>
+											<input id="essential_content" class="essential_content" type="text" name="" value=""/>
 										</div>
 										<div class="mui-input-row mui-col-xs-12">
 											<label class="label">实施主体</label>
@@ -71,7 +77,7 @@
 										</div>
 										<div class="mui-input-row mui-col-xs-12">
 											<label class="label">目标形象</label>
-											<textarea class="essential_yearTarget" name="" rows="" cols=""></textarea>
+											<input id="essential_yearTarget" class="essential_yearTarget" type="text" />
 										</div>
 										<div class="mui-input-row mui-col-xs-12" style="display: none;">
 											<button type="button" class="btn mui-btn mui-btn-primary mui-btn-block">保存</button>
@@ -157,10 +163,15 @@
 					            <li class="mui-table-view-cell mui-media">
 					                <div class="mui-media-body proceduresText">
 					                	<div id="procedures">
-						                	<div class="procedures_list mui-input-row mui-pull-left mui-col-xs-12 mui-table-view-cell" style="display: none;">
+						                	<div class="procedures_list mui-input-row mui-pull-left mui-col-xs-12 mui-table-view-cell">
 												<span id="procedures_listName" class="procedures_listName" style="width:100px;display: inline-block; line-height: 40px; padding-left: 15px;">力顶手续</span>
-												<label class="" style="width: auto; float: right; line-height: 20px;"><input type="checkbox" style="vertical-align: middle;margin-bottom: 2px;" />是否已办妥</label>
-											</div>
+
+												<div class="mui-input-row mui-radio mui-left mui-pull-right">
+													<label style="background-color: #fff;">是否已办妥</label>
+													<input  name="item1" type="checkbox">
+												</div>
+						                	</div>
+											
 										</div>
 					                	<div id="proceduresSave" class="mui-input-row mui-col-xs-12" style="display: none;">
 											<button type="button" class="btn mui-btn mui-btn-primary mui-btn-block">保存</button>
@@ -202,11 +213,11 @@
 										</div>
 										<div class="investmentList mui-input-row mui-col-xs-12">
 											<label class="label label_invest">至<span class="month">03</span>月累计投资（<span class="investPlan">预计</span>）</label>
-											<input class="investment essential_monthInvest" type="text" value="0万元">
+											<input class="investment essential_monthInvest" type="text" value="0万元" style="border-bottom: 0;padding-bottom: 45px;" readonly="readonly">
 										</div>
 										<div class="investmentList mui-input-row mui-col-xs-12">
 											<label class="label">时序进度</label>
-											<input class="investment invest_rate" type="text" value="0.0%">
+											<input class="investment invest_rate" type="text" value="0.0%" readonly="readonly" style="border-bottom: 0;">
 										</div>
 										<div class="investmentList mui-input-row mui-col-xs-12 invest_textarea">
 											<label class="label">形象进度</label>
@@ -401,14 +412,14 @@
 		
 		}
 //  前期手续点击进入手续列表页面
-		mui("#procedures").on('tap', '.procedures_listName', function() {
-			//获取id
-			var id = this.getAttribute("id");
-			mui.openWindow({
-			    url: 'list_procedure.html?id='+id+'&projectId='+projectId, 
-			    id:'list_procedure'
-			});
-		})
+//		mui("#procedures").on('tap', '.procedures_listName', function() {
+//			//获取id
+//			var id = this.getAttribute("id");
+//			mui.openWindow({
+//			    url: 'list_procedure.html?id='+id+'&projectId='+projectId, 
+//			    id:'list_procedure'
+//			});
+//		})
 //  投资进度
 		function invest(){
 			mui.ajax(commonUrl+'/android/projectMonth/listByProjectId',{
@@ -503,6 +514,22 @@
 			$(btn).show();
 		});
 	}
+
+	document.getElementById("essential_content").addEventListener('tap',function(){
+		if(this.value==""){
+			
+		}else{
+			mui.alert(this.value);
+		}
+	})
+	document.getElementById("essential_yearTarget").addEventListener('tap',function(){
+		if(this.value==""){
+			
+		}else{
+			mui.alert(this.value);
+		}
+		
+	})
 		</script>
 	</body>
 

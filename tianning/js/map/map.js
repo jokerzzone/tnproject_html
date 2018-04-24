@@ -137,21 +137,22 @@ function myevent() {
     //为指定的元素添加事件
     //dojo.connect(MyMap, 'onLoad', createToolbar); //地图加载后调用createToolbar函数
 	   mygraphicsLayer.on("click", function (arg) {
+	   	dhMap = arg;
 		  ///查询信息窗口
 	       MyMap.infoWindow.resize(275, 225);        //调整信息框的大小
 	       //console.log(arg.graphic.attributes)
 	       MyMap.infoWindow.setTitle('<b>'+arg.graphic.attributes.name+'</b>');   //设置信息框的标题
 	       MyMap.infoWindow.setContent(
-	    		   						'<span>建设地点：'+arg.graphic.attributes.adr+'</span></br>'
-	    		   						+'<span>实施主体：'+arg.graphic.attributes.sszt+'</span></br>'
-	    		   						+'<span>项目层次：'+arg.graphic.attributes.xmcc+'</span></br>'	
-	    		   						+'<span>总投资：'+arg.graphic.attributes.tz+'万元</span></br>'
-	    		   						+'<span>当月投资：'+arg.graphic.attributes.dytz+'万元</span></br>'
-	    		   						+'<span>当前累计投资：'+arg.graphic.attributes.dqljtz+'万元</span></br>'
-	    		   						+'<span>建设开始时间：'+arg.graphic.attributes.jskssj+'</span></br>'
-	    		   						+'<span>建设结束时间：'+arg.graphic.attributes.jsjssj+'</span></br>'
-	    		   						//+'<a href="http://58.216.140.181:8181/xbproject/manager/view/projects_detail.html?type=update&id='+arg.graphic.attributes.id+'&pageIndex=1&pageSize=10">详情</a>'
-	    		   						);
+				'<span>建设地点：'+arg.graphic.attributes.adr+'</span></br>'
+				+'<span>实施主体：'+arg.graphic.attributes.sszt+'</span></br>'
+				+'<span>项目层次：'+arg.graphic.attributes.xmcc+'</span></br>'	
+				+'<span>总投资：'+arg.graphic.attributes.tz+'万元</span></br>'
+				+'<span>当月投资：'+arg.graphic.attributes.dytz+'万元</span></br>'
+				+'<span>当前累计投资：'+arg.graphic.attributes.dqljtz+'万元</span></br>'
+				+'<span>建设开始时间：'+arg.graphic.attributes.jskssj+'</span></br>'
+				+'<span>建设结束时间：'+arg.graphic.attributes.jsjssj+'</span></br>'
+				+'<a onclick="daohang(\''+arg.graphic.attributes.name+'\',\''+arg+'\')">导航</a>'
+				);
 	       MyMap.infoWindow.show(arg.mapPoint, MyMap.getInfoWindowAnchor(arg.graphic.geometry));   //根据定位点的坐标，把特性展现出来
 	   });
 	   
@@ -162,7 +163,15 @@ function myevent() {
 }
 
 
-
+function daohang(name,arg){
+	// 目标位置
+	var lonlat = mercator2lonlat(dhMap.mapPoint.x,dhMap.mapPoint.y);
+	var dst = new plus.maps.Point(lonlat.x,lonlat.y); // 导航
+	//起始位置
+	var src = new plus.maps.Point(startLat,startLon); // 大钟寺
+	// 调用系统地图显示 
+	plus.maps.openSysMap( dst, name, src );
+}
 
 
 function mercator2lonlat(param_x,param_y){
